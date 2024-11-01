@@ -1,0 +1,28 @@
+[profile private-account-admin]
+sso_session = private-account-dev
+sso_account_id = 593885660717
+sso_role_name = AdministratorAccess
+region = eu-central-1
+[sso-session private-account-dev]
+sso_start_url = https://d-99671e2f06.awsapps.com/start
+sso_region = eu-central-1
+sso_registration_scopes = sso:account:access
+[profile engineering-01-admin]
+sso_session = loft
+sso_account_id = 250811347731
+sso_role_name = AWSAdministratorAccess
+region = eu-central-1
+[profile engineering-02-admin]
+sso_session = loft
+sso_account_id = 812486021373
+sso_role_name = AWSAdministratorAccess
+region = eu-central-1
+[profile external-production-admin]
+sso_session = loft
+sso_account_id = 970547378862
+sso_role_name = AWSAdministratorAccess
+
+[sso-session loft]
+sso_start_url = https://loft-sh.awsapps.com/start#
+sso_region = eu-central-1
+sso_registration_scopes = sso:account:access
