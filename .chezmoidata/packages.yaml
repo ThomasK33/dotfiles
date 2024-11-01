@@ -1,0 +1,43 @@
+packages:
+  darwin:
+    brews:
+    - age
+    - awscli
+    - curl
+    - dog
+    - eza
+    - fastfetch
+    - fzf
+    - gh
+    - git
+    - helm
+    - just
+    - k9s
+    - kubectx
+    - kubernetes-cli
+    - lazygit
+    - mcfly
+    - mkcert
+    - neovim
+    - ripgrep
+    - starship
+    - syft
+    - tailscale
+    - terraform
+    - tmux
+    - tmux-mem-cpu-load
+    - topgrade
+    - trivy
+    - viddy
+    - yazi
+    - zoxide
+    casks:
+    - 1password-cli
+    # - arc
+    - alacritty
+    - dbeaver-community
+    - font-fira-code-nerd-font
+    - latest
+    - raycast
+    - rectangle-pro
+    - wireshark
