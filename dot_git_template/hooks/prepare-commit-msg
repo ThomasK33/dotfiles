@@ -1,0 +1,39 @@
+#!/bin/sh
+
+# https://stackoverflow.com/a/46536244/2382056
+NAME=$(git config user.name)
+EMAIL=$(git config user.email)
+
+if [ -z "$NAME" ]; then
+    echo "empty git config user.name"
+    exit 1
+fi
+
+if [ -z "$EMAIL" ]; then
+    echo "empty git config user.email"
+    exit 1
+fi
+
+git interpret-trailers --if-exists doNothing --trailer \
+    "Signed-off-by: $NAME <$EMAIL>" \
+    --in-place "$1"
+
+# https://bitbucket.org/snippets/atlassian/qedp7d
+# git prepare-commit-msg hook for automatically prepending an issue key
+# from the start of the current branch name to commit messages.
+
+# check if commit is merge commit or a commit ammend
+if [ $2 = "merge" ] || [ $2 = "commit" ]; then
+    exit
+fi
+ISSUE_KEY=`git branch | grep -o "\* \(.*/\)*[A-Z]\{2,\}-[0-9]\+" | grep -o "[A-Z]\{2,\}-[0-9]\+"`
+if [ $? -ne 0 ]; then
+    # no issue key in branch, use the default message
+    exit
+fi
+# issue key matched from branch prefix, prepend to commit message
+TEMP=`mktemp /tmp/commitmsg-XXXXX`
+(echo "$ISSUE_KEY: $(cat  $1)") > $TEMP
+cat $TEMP > $1
+
+
