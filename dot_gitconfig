@@ -1,0 +1,57 @@
+[core]
+excludesfile = /Users/thomask33/.gitignore_global
+editor = nvim
+
+[user]
+email = thomas.kosiewski@loft.sh
+name = Thomas Kosiewski
+signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFW/uF+WgwedP2hwAGyXWUT22QNYWWue7OBTYxehocAy
+
+[filter "lfs"]
+clean = git-lfs clean -- %f
+smudge = git-lfs smudge -- %f
+process = git-lfs filter-process
+required = true
+
+[tag]
+forceSignAnnotated = true
+
+[init]
+templatedir = ~/.git_template
+
+[format]
+signoff = true
+
+[gpg]
+program = gpg
+format = ssh
+
+[gpg "ssh"]
+program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+allowedSignersFile = ""
+
+[commit]
+gpgsign = true
+
+# Delta
+[core]
+pager = delta
+
+[interactive]
+diffFilter = delta --color-only
+
+[delta]
+navigate = true    # use n and N to move between diff sections
+light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+line-numbers = true
+side-by-side = true
+
+[merge]
+conflictstyle = diff3
+
+[diff]
+colorMoved = default
+[notes]
+rewriteRef = refs/notes/fel
+[push]
+followTags = false
