@@ -1,0 +1,10 @@
+Include ~/.orbstack/ssh/config
+
+
+# DevSpace Start
+Match all
+Include devspace_config
+# DevSpace End
+
+Host *
+	IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"

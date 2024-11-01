@@ -1,0 +1,30 @@
+# DevSpace Start kube-scheduler-rs.kube-scheduler-rs.devspace
+Host kube-scheduler-rs.kube-scheduler-rs.devspace
+  HostName localhost
+  LogLevel error
+  Port 11556
+  IdentityFile "/Users/thomask33/.devspace/ssh/id_devspace_ecdsa"
+  StrictHostKeyChecking no
+  UserKnownHostsFile /dev/null
+  User devspace
+# DevSpace End kube-scheduler-rs.kube-scheduler-rs.devspace
+# DevSpace Start nbam.nbam.devspace
+Host nbam.nbam.devspace
+  HostName localhost
+  LogLevel error
+  Port 10088
+  IdentityFile "/Users/thomask33/.devspace/ssh/id_devspace_ecdsa"
+  StrictHostKeyChecking no
+  UserKnownHostsFile /dev/null
+  User devspace
+# DevSpace End nbam.nbam.devspace
+# DevSpace Start kube-scheduler-rs-vscode.kube-scheduler-rs.devspace
+Host kube-scheduler-rs-vscode.kube-scheduler-rs.devspace
+  HostName localhost
+  LogLevel error
+  Port 11564
+  IdentityFile "/Users/thomask33/.devspace/ssh/id_devspace_ecdsa"
+  StrictHostKeyChecking no
+  UserKnownHostsFile /dev/null
+  User devspace
+# DevSpace End kube-scheduler-rs-vscode.kube-scheduler-rs.devspace
