@@ -33,9 +33,10 @@ packages:
     - yazi
     - zoxide
     casks:
+    # - 1password
     - 1password-cli
-    # - arc
     - alacritty
+    # - arc
     - dbeaver-community
     - font-fira-code-nerd-font
     - latest
