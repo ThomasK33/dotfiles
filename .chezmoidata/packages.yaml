@@ -11,6 +11,7 @@ packages:
     - gh
     - git
     - helm
+    - httpie
     - just
     - k9s
     - kubectx
