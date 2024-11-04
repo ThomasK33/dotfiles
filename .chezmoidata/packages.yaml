@@ -39,6 +39,7 @@ packages:
     # - arc
     - dbeaver-community
     - font-fira-code-nerd-font
+    - httpie
     - latest
     - raycast
     - rectangle-pro
