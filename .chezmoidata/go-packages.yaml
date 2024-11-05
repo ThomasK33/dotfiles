@@ -1,11 +1,12 @@
 go:
   packages:
-    - github.com/rhysd/actionlint/cmd/actionlint
     - github.com/Gelio/go-global-update
     - github.com/air-verse/air
-    - golang.org/x/perf/cmd/benchstat
-    - github.com/matryer/moq
-    - golang.org/x/tools/gopls
-    - github.com/golangci/golangci-lint/cmd/golangci-lint
-    - github.com/go-delve/delve/cmd/dlv
     - github.com/dkorunic/betteralign/cmd/betteralign
+    - github.com/go-delve/delve/cmd/dlv
+    - github.com/golangci/golangci-lint/cmd/golangci-lint
+    - github.com/matryer/moq
+    - github.com/mfridman/tparse
+    - github.com/rhysd/actionlint/cmd/actionlint
+    - golang.org/x/perf/cmd/benchstat
+    - golang.org/x/tools/gopls
