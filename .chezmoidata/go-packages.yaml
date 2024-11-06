@@ -8,5 +8,6 @@ go:
     - github.com/matryer/moq
     - github.com/mfridman/tparse
     - github.com/rhysd/actionlint/cmd/actionlint
+    - github.com/roblaszczak/vgt
     - golang.org/x/perf/cmd/benchstat
     - golang.org/x/tools/gopls
