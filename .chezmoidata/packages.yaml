@@ -11,7 +11,6 @@ packages:
     - gh
     - git
     - helm
-    - httpie
     - just
     - k9s
     - kubectx
@@ -33,6 +32,7 @@ packages:
     - topgrade
     - trivy
     - viddy
+    - xh
     - yazi
     - zoxide
     casks:
@@ -42,7 +42,6 @@ packages:
     # - arc
     - dbeaver-community
     - font-fira-code-nerd-font
-    - httpie
     - latest
     - raycast
     - rectangle-pro
