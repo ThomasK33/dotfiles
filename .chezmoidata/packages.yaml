@@ -21,6 +21,7 @@ packages:
     - neovim
     - noahgorstein/tap/jqp
     - node
+    - oha
     - ripgrep
     - starship
     - syft
