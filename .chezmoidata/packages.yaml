@@ -18,6 +18,7 @@ packages:
     - lazygit
     - mcfly
     - mkcert
+    - moreutils
     - neovim
     - noahgorstein/tap/jqp
     - node
