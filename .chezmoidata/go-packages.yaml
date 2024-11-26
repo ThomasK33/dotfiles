@@ -10,4 +10,5 @@ go:
     - github.com/rhysd/actionlint/cmd/actionlint
     - github.com/roblaszczak/vgt
     - golang.org/x/perf/cmd/benchstat
+    - golang.org/x/pkgsite/cmd/pkgsite
     - golang.org/x/tools/gopls
