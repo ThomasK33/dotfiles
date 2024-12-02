@@ -41,10 +41,10 @@ packages:
     # - 1password
     - 1password-cli
     - alacritty
+    - alfred
     # - arc
     - dbeaver-community
     - font-fira-code-nerd-font
     - latest
-    - raycast
     - rectangle-pro
     - wireshark
