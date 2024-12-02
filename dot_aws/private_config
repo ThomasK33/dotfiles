@@ -7,6 +7,9 @@ region = eu-central-1
 sso_start_url = https://d-99671e2f06.awsapps.com/start
 sso_region = eu-central-1
 sso_registration_scopes = sso:account:access
+
+# --- Loft ---
+
 [profile engineering-01-admin]
 sso_session = loft
 sso_account_id = 250811347731
@@ -20,6 +23,10 @@ region = eu-central-1
 [profile external-production-admin]
 sso_session = loft
 sso_account_id = 970547378862
+sso_role_name = AWSAdministratorAccess
+[profile internal-production-admin]
+sso_session = loft
+sso_account_id = 585768162836
 sso_role_name = AWSAdministratorAccess
 
 [sso-session loft]
