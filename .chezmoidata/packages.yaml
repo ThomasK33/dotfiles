@@ -16,6 +16,8 @@ packages:
     - kubectx
     - kubernetes-cli
     - lazygit
+    - lld
+    - llvm
     - mcfly
     - mkcert
     - moreutils

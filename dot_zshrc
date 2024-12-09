@@ -2,6 +2,11 @@
 # See: https://stackoverflow.com/a/65869050
 bindkey -e
 
+# Ghostty shell integration for Bash. This must be at the top of your bashrc!
+if [ -n "${GHOSTTY_RESOURCES_DIR}" ]; then
+  builtin source "${GHOSTTY_RESOURCES_DIR}/shell-integration/zsh/ghostty-integration"
+fi
+
 # Shell initialization
 eval "$(starship init zsh)"
 source <(fzf --zsh)
@@ -27,7 +32,11 @@ WORDCHARS+='/'
 # Path extensions
 export PATH="${PATH}:${HOME}/.krew/bin"
 export PATH="$(go env GOPATH)/bin:$PATH"
-export PATH="${PATH}:${HOME}/zig"
+export PATH="${PATH}:${HOME}/.zvm/bin"
+# Add Ghostty CLI
+export PATH="${PATH}:/Applications/Ghostty.app/Contents/MacOS"
+# LLVM exports
+export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 
 # Aliases
 alias k='kubectl'
@@ -67,6 +76,8 @@ source <(devpod completion zsh)
 export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
 
 export GOPROXY=direct
+
+export ZVM_INSTALL="$HOME/.zvm/self"
 
 eval "$(zoxide init zsh --cmd cd)"
 
