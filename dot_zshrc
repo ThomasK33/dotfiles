@@ -2,9 +2,10 @@
 # See: https://stackoverflow.com/a/65869050
 bindkey -e
 
-# Ghostty shell integration for Bash. This must be at the top of your bashrc!
-if [ -n "${GHOSTTY_RESOURCES_DIR}" ]; then
-  builtin source "${GHOSTTY_RESOURCES_DIR}/shell-integration/zsh/ghostty-integration"
+if [[ -n $GHOSTTY_RESOURCES_DIR ]]; then
+  autoload -Uz -- "$GHOSTTY_RESOURCES_DIR"/shell-integration/zsh/ghostty-integration
+  ghostty-integration
+  unfunction ghostty-integration
 fi
 
 # Shell initialization
