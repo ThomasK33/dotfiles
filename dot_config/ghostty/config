@@ -1,0 +1,4 @@
+quit-after-last-window-closed = true
+macos-option-as-alt = right
+macos-titlebar-style = hidden
+theme = Kanagawa Wave
