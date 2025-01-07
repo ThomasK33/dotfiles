@@ -10,6 +10,7 @@ packages:
     - fzf
     - gh
     - git
+    - git-delta
     - helm
     - just
     - k9s
