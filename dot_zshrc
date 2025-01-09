@@ -13,6 +13,7 @@ eval "$(starship init zsh)"
 source <(fzf --zsh)
 eval "$(mcfly init zsh)"
 eval "$(brew shellenv)"
+eval "$(direnv hook zsh)"
 
 # The following lines were added by compinstall
 
@@ -49,7 +50,6 @@ alias tf='terraform'
 alias ls='eza'
 alias d='devspace'
 alias lzd='lazydocker'
-alias dp='devpod'
 alias j='just'
 alias z='zellij'
 alias tailscale='/Applications/Tailscale.app/Contents/MacOS/Tailscale'
@@ -71,8 +71,6 @@ alias cm='chezmoi'
 
 # Shell completions
 source <(kubectl completion zsh)
-source <(kwokctl completion zsh)
-source <(devpod completion zsh)
 
 export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
 

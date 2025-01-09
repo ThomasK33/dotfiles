@@ -4,6 +4,7 @@ packages:
     - age
     - awscli
     - curl
+    - direnv
     - doggo
     - eza
     - fastfetch
