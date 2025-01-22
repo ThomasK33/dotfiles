@@ -38,6 +38,7 @@ packages:
     - topgrade
     - trivy
     - viddy
+    - wget
     - xh
     - yazi
     - zoxide
@@ -52,3 +53,4 @@ packages:
     - latest
     - rectangle-pro
     - wireshark
+    - xcodes
