@@ -37,6 +37,7 @@ packages:
     - tmux-mem-cpu-load
     - topgrade
     - trivy
+    - unxip
     - viddy
     - wget
     - xh

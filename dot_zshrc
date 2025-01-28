@@ -68,6 +68,7 @@ e() {
 alias uuidgen='uuidgen | tr A-F a-f'
 alias ff='fastfetch'
 alias cm='chezmoi'
+alias re='nix-direnv-reload'
 
 # Shell completions
 source <(kubectl completion zsh)
