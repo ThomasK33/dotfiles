@@ -69,6 +69,7 @@ alias uuidgen='uuidgen | tr A-F a-f'
 alias ff='fastfetch'
 alias cm='chezmoi'
 alias re='nix-direnv-reload'
+alias cdr='/Users/thomask33/Projects/coder/scripts/coder-dev.sh'
 
 # Shell completions
 source <(kubectl completion zsh)
@@ -104,3 +105,6 @@ function yy() {
 	fi
 	rm -f -- "$tmp"
 }
+
+# uv
+. "$HOME/.local/bin/env"

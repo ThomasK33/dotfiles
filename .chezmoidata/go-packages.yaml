@@ -4,7 +4,6 @@ go:
     - github.com/air-verse/air
     - github.com/dkorunic/betteralign/cmd/betteralign
     - github.com/go-delve/delve/cmd/dlv
-    - github.com/golangci/golangci-lint/cmd/golangci-lint
     - github.com/matryer/moq
     - github.com/mfridman/tparse
     - github.com/rhysd/actionlint/cmd/actionlint
