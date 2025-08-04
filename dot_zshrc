@@ -55,7 +55,7 @@ alias z='zellij'
 alias tailscale='/Applications/Tailscale.app/Contents/MacOS/Tailscale'
 alias ts='tailscale'
 alias gr='goreleaser'
-alias c='cargo'
+alias ca='cargo'
 alias v='vcluster'
 alias lg='lazygit'
 e() {
@@ -70,6 +70,8 @@ alias ff='fastfetch'
 alias cm='chezmoi'
 alias re='nix-direnv-reload'
 alias cdr='/Users/thomask33/Projects/coder/scripts/coder-dev.sh'
+alias commit-msg='claude -p "give me a good conventional commit message for the staged changes. do not perform a commit, only the message to put into the commit. output the message so that I can copy and paste it, only the first line, no extensive body description" | tr -d "\n" | tee >(pbcopy)'
+alias c='claude'
 
 # Shell completions
 source <(kubectl completion zsh)
@@ -108,3 +110,44 @@ function yy() {
 
 # uv
 . "$HOME/.local/bin/env"
+
+# Claude Code
+
+## IDE feature
+export ENABLE_IDE_INTEGRATION=true
+
+## Maintain CWD
+export CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR=1
+
+# pnpm
+export PNPM_HOME="/Users/thomask33/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+# vv() {
+#   # Assumes all configs exist in directories named ~/.config/nvim-*
+#   local config=$(fd --max-depth 1 --glob 'nvim-*' ~/.config | fzf --prompt="Neovim Configs > " --height=~50% --layout=reverse --border --exit-0)
+#
+#   # If I exit fzf without selecting a config, don't open Neovim
+#   [[ -z $config ]] && echo "No config selected" && return
+#
+#   # Open Neovim with the selected config
+#   NVIM_APPNAME=$(basename $config) nvim $@
+# }
+#
+# vve() {
+#   # Assumes all configs exist in directories named ~/.config/nvim-*
+#   local config=$(fd --max-depth 1 --glob 'nvim-*' ~/.config | fzf --prompt="Neovim Configs > " --height=~50% --layout=reverse --border --exit-0)
+#
+#   # If I exit fzf without selecting a config, don't open Neovim
+#   [[ -z $config ]] && echo "No config selected" && return
+#
+#   # Open Neovim with the selected config
+#   nvim $config
+# }
+
+# Gemini CLI
+export GOOGLE_CLOUD_PROJECT='coder-dev-1'
