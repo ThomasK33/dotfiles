@@ -3,6 +3,7 @@ packages:
     brews:
     - age
     - awscli
+    - bob
     - curl
     - direnv
     - doggo
@@ -23,10 +24,12 @@ packages:
     - mcfly
     - mkcert
     - moreutils
-    - neovim
+    # Use bob for neovim management
+    # - neovim
     - noahgorstein/tap/jqp
     - node
     - oha
+    - pv
     - ripgrep
     - starship
     - syft

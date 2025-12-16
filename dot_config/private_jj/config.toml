@@ -1,0 +1,44 @@
+#:schema https://jj-vcs.github.io/jj/latest/config-schema.json
+
+[user]
+name = "Thomas Kosiewski"
+email = "tk@coder.com"
+
+[ui]
+default-command = "log"
+
+[git]
+private-commits = "description(glob:'wip:*') | description(glob:'private:*')"
+
+[signing]
+behavior = "own"
+backend = "ssh"
+key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFW/uF+WgwedP2hwAGyXWUT22QNYWWue7OBTYxehocAy"
+backends.ssh.program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+## You can also use a path instead of embedding the key
+# key = "~/.ssh/id_for_signing.pub"
+
+[templates]
+git_push_bookmark = '"thomask33/push-" ++ change_id.short()'
+
+[fix.tools.gofumpt]
+patterns = ["glob:'**/*.go'"]
+command = ["go", "run", "mvdan.cc/gofumpt@v0.9.1", "$path"]
+
+[fix.tools.shfmt]
+command = ["shfmt", "--filename=$path"]
+patterns = ["glob:'**/*.sh'"]
+
+[revset-aliases]
+'closest_bookmark(to)' = 'heads(::to & bookmarks())'
+
+[aliases]
+d = ["describe"]
+gf = ["git", "fetch"]
+re = ["rebase"]
+ai = ["util", "exec", "--", "bash", "-lc", """
+     set -euo pipefail
+     source ~/Projects/jj-ai/ai.sh
+     jj-ai "$@"
+     """, ""]
+tug = ["bookmark", "move", "--from", "closest_bookmark(@-)", "--to", "@-"]

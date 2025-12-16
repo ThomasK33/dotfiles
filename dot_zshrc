@@ -40,6 +40,9 @@ export PATH="${PATH}:/Applications/Ghostty.app/Contents/MacOS"
 # LLVM exports
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 
+# Bun bin exports
+export PATH="${HOME}/.bun/bin:$PATH"
+
 # Aliases
 alias k='kubectl'
 alias ktx='kubectx'
@@ -71,7 +74,13 @@ alias cm='chezmoi'
 alias re='nix-direnv-reload'
 alias cdr='/Users/thomask33/Projects/coder/scripts/coder-dev.sh'
 alias commit-msg='claude -p "give me a good conventional commit message for the staged changes. do not perform a commit, only the message to put into the commit. output the message so that I can copy and paste it, only the first line, no extensive body description" | tr -d "\n" | tee >(pbcopy)'
-alias c='claude'
+alias c='claude --allow-dangerously-skip-permissions'
+
+cc-coder() {
+  ANTHROPIC_BASE_URL="https://dev.coder.com/api/v2/aibridge/anthropic" \
+    ANTHROPIC_AUTH_TOKEN=$(security find-generic-password -s "coder-v2-credentials" -w | base64 -d | jq -rc '."dev.coder.com".api_token') \
+    claude --allow-dangerously-skip-permissions "$@"
+}
 
 # Shell completions
 source <(kubectl completion zsh)
@@ -151,3 +160,43 @@ esac
 
 # Gemini CLI
 export GOOGLE_CLOUD_PROJECT='coder-dev-1'
+
+export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
+
+export JJ_AI_AGENT="claude"
+source ~/Projects/jj-ai/ai.sh
+
+# Cmux
+cx() {
+  local dir=$(find ~/.mux/src -mindepth 2 -maxdepth 2 -type d | sed "s|$HOME/.mux/src/||" | fzf)
+  [ -n "$dir" ] && cd "$HOME/.mux/src/$dir"
+}
+
+# JJ Workspace shortcuts
+jx() {
+  local dir=$(find ~/.jj-workdirs/ -mindepth 1 -maxdepth 1 -type d | sed "s|$HOME/.jj-workdirs/||" | fzf)
+  [ -n "$dir" ] && cd "$HOME/.jj-workdirs/$dir"
+}
+
+jn() {
+  [ -z "$1" ] && { echo "Usage: jn <workspace-name>"; return 1; }
+  jj workspace add "$HOME/.jj-workdirs/$1" && cd "$HOME/.jj-workdirs/$1"
+}
+
+jd() {
+  local dir=$(find ~/.jj-workdirs/ -mindepth 1 -maxdepth 1 -type d | sed "s|$HOME/.jj-workdirs/||" | fzf --prompt="Delete workspace> ")
+  [ -z "$dir" ] && return 0
+  echo -n "Delete workspace '$dir'? [y/N] "
+  read -r confirm
+  [[ "$confirm" =~ ^[Yy]$ ]] || { echo "Cancelled"; return 0; }
+  local project_dir=$(cat "$HOME/.jj-workdirs/$dir/.jj/repo" 2>/dev/null | sed 's|/.jj/repo$||')
+  jj workspace forget "$dir" && rm -rf "$HOME/.jj-workdirs/$dir" && echo "Deleted workspace '$dir'"
+  [ -n "$project_dir" ] && [ -d "$project_dir" ] && cd "$project_dir"
+}
+
+# bun completions
+[ -s "/Users/thomask33/.bun/_bun" ] && source "/Users/thomask33/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

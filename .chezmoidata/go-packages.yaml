@@ -12,3 +12,4 @@ go:
     - golang.org/x/perf/cmd/benchstat
     - golang.org/x/pkgsite/cmd/pkgsite
     - golang.org/x/tools/gopls
+    - mvdan.cc/sh/v3/cmd/shfmt
