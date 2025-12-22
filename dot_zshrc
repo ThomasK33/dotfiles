@@ -172,6 +172,11 @@ cx() {
   [ -n "$dir" ] && cd "$HOME/.mux/src/$dir"
 }
 
+px() {
+  local plan=$(find ~/.mux/plans -mindepth 2 -maxdepth 2 -type f -name "*.md" | sed "s|$HOME/.mux/plans/||" | fzf)
+  [ -n "$plan" ] && nvim "$HOME/.mux/plans/$plan"
+}
+
 # JJ Workspace shortcuts
 jx() {
   local dir=$(find ~/.jj-workdirs/ -mindepth 1 -maxdepth 1 -type d | sed "s|$HOME/.jj-workdirs/||" | fzf)
@@ -192,6 +197,13 @@ jd() {
   local project_dir=$(cat "$HOME/.jj-workdirs/$dir/.jj/repo" 2>/dev/null | sed 's|/.jj/repo$||')
   jj workspace forget "$dir" && rm -rf "$HOME/.jj-workdirs/$dir" && echo "Deleted workspace '$dir'"
   [ -n "$project_dir" ] && [ -d "$project_dir" ] && cd "$project_dir"
+}
+
+jroot() {
+  local repo_file="$PWD/.jj/repo"
+  [ -f "$repo_file" ] || { echo "Not in a jj workspace"; return 1; }
+  local main_dir=$(cat "$repo_file" 2>/dev/null | sed 's|/.jj/repo$||')
+  [ -d "$main_dir" ] && cd "$main_dir" || { echo "Main repo not found: $main_dir"; return 1; }
 }
 
 # bun completions
