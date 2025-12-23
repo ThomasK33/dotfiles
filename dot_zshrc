@@ -185,14 +185,14 @@ cdev() {
   local full_path="$HOME/.mux/src/$dir"
   [ ! -d "$full_path" ] && { echo "Directory not found: $full_path"; return 1; }
 
-  # Change to the project directory
+  # Allow direnv before cd so the hook can load the environment
+  [ -f "$full_path/.envrc" ] && direnv allow "$full_path"
+
+  # Change to the project directory - direnv hook fires here
   cd "$full_path" || return 1
 
-  # Allow direnv if .envrc exists but isn't allowed yet
-  if [ -f ".envrc" ] && ! direnv exec . true 2>/dev/null; then
-    direnv allow
-    ./.direnv/bin/nix-direnv-reload
-  fi
+  # Trigger nix-direnv cache build if needed
+  nix-direnv-reload
 
   # Rename the window to the selected directory
   tmux rename-window "$dir"
@@ -227,11 +227,12 @@ cdev-new() {
   # Create new tmux window in the project directory
   tmux new-window -c "$full_path" -n "$dir"
 
-  # Allow direnv if .envrc exists but isn't allowed yet
-  if [ -f "$full_path/.envrc" ] && ! (cd "$full_path" && direnv exec . true 2>/dev/null); then
-    tmux send-keys "direnv allow && ./.direnv/bin/nix-direnv-reload" Enter
-    sleep 1
-  fi
+  # Allow direnv before the new window so hook loads env on cd
+  [ -f "$full_path/.envrc" ] && direnv allow "$full_path"
+
+  # nix-direnv-reload to build cache if needed
+  tmux send-keys 'nix-direnv-reload' Enter
+  sleep 1
 
   # Run make dev in the left pane
   tmux send-keys "make dev" Enter
