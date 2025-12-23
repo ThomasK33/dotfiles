@@ -172,6 +172,77 @@ cx() {
   [ -n "$dir" ] && cd "$HOME/.mux/src/$dir"
 }
 
+cdev() {
+  local dir
+  if [ -n "$1" ]; then
+    dir="$1"
+  else
+    dir=$(find ~/.mux/src -mindepth 2 -maxdepth 2 -type d | sed "s|$HOME/.mux/src/||" | fzf)
+  fi
+
+  [ -z "$dir" ] && return 0
+
+  local full_path="$HOME/.mux/src/$dir"
+  [ ! -d "$full_path" ] && { echo "Directory not found: $full_path"; return 1; }
+
+  # Change to the project directory
+  cd "$full_path" || return 1
+
+  # Allow direnv if .envrc exists but isn't allowed yet
+  if [ -f ".envrc" ] && ! direnv exec . true 2>/dev/null; then
+    direnv allow
+    ./.direnv/bin/nix-direnv-reload
+  fi
+
+  # Rename the window to the selected directory
+  tmux rename-window "$dir"
+
+  # Split horizontally to create right pane
+  tmux split-window -h -c "$full_path"
+
+  # Type make start in the right pane (without executing)
+  tmux send-keys "make start"
+
+  # Select the left pane and run make dev
+  tmux select-pane -L
+  tmux send-keys "make dev" Enter
+
+  # Switch back to the right pane
+  tmux select-pane -R
+}
+
+cdev-new() {
+  local dir
+  if [ -n "$1" ]; then
+    dir="$1"
+  else
+    dir=$(find ~/.mux/src -mindepth 2 -maxdepth 2 -type d | sed "s|$HOME/.mux/src/||" | fzf)
+  fi
+
+  [ -z "$dir" ] && return 0
+
+  local full_path="$HOME/.mux/src/$dir"
+  [ ! -d "$full_path" ] && { echo "Directory not found: $full_path"; return 1; }
+
+  # Create new tmux window in the project directory
+  tmux new-window -c "$full_path" -n "$dir"
+
+  # Allow direnv if .envrc exists but isn't allowed yet
+  if [ -f "$full_path/.envrc" ] && ! (cd "$full_path" && direnv exec . true 2>/dev/null); then
+    tmux send-keys "direnv allow && ./.direnv/bin/nix-direnv-reload" Enter
+    sleep 1
+  fi
+
+  # Run make dev in the left pane
+  tmux send-keys "make dev" Enter
+
+  # Split horizontally to create right pane
+  tmux split-window -h -c "$full_path"
+
+  # Type make start in the right pane (without executing)
+  tmux send-keys "make start"
+}
+
 px() {
   local plan=$(find ~/.mux/plans -mindepth 2 -maxdepth 2 -type f -name "*.md" | sed "s|$HOME/.mux/plans/||" | fzf)
   [ -n "$plan" ] && nvim "$HOME/.mux/plans/$plan"
