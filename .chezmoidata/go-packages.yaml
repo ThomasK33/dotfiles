@@ -6,6 +6,7 @@ go:
     - github.com/go-delve/delve/cmd/dlv
     - github.com/matryer/moq
     - github.com/mfridman/tparse
+    - github.com/ramonvermeulen/whosthere
     - github.com/rhysd/actionlint/cmd/actionlint
     - github.com/roblaszczak/vgt
     - github.com/tristanisham/zvm

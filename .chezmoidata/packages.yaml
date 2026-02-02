@@ -42,6 +42,7 @@ packages:
     - trivy
     - unxip
     - viddy
+    - witr
     - wget
     - xh
     - yazi

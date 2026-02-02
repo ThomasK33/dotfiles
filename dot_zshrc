@@ -166,10 +166,10 @@ export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
 export JJ_AI_AGENT="claude"
 source ~/Projects/jj-ai/ai.sh
 
-# Cmux
+# Mux
 cx() {
   local dir=$(find ~/.mux/src -mindepth 2 -maxdepth 2 -type d | sed "s|$HOME/.mux/src/||" | fzf)
-  [ -n "$dir" ] && cd "$HOME/.mux/src/$dir"
+  [ -n "$dir" ] && cd "$HOME/.mux/src/$dir" && tmux rename-window "$dir"
 }
 
 cdev() {
@@ -242,6 +242,52 @@ cdev-new() {
 
   # Type make start in the right pane (without executing)
   tmux send-keys "make start"
+}
+
+cpull() {
+  # Ensure we're in a git repo
+  git rev-parse --git-dir > /dev/null 2>&1 || { echo "Not in a git repository"; return 1; }
+
+  # Get the org/repo from current remote
+  local remote_url=$(git remote get-url origin 2>/dev/null)
+  local repo_path=$(echo "$remote_url" | sed -E 's|.*github\.com[:/](.+)(\.git)?$|\1|' | sed 's/\.git$//')
+  local org=$(echo "$repo_path" | cut -d'/' -f1)
+
+  # Use gh to list PRs with fzf, preview shows PR details
+  local pr=$(gh pr list --state open --limit 100 --json number,title,headRefName \
+    --template '{{range .}}{{.number}}	{{.headRefName}}	{{.title}}{{"\n"}}{{end}}' | \
+    fzf --delimiter='\t' \
+        --with-nth=1,2,3 \
+        --preview 'gh pr view {1}' \
+        --preview-window=right:60%:wrap)
+
+  [ -z "$pr" ] && return 0
+
+  # Extract PR number and branch name
+  local pr_number=$(echo "$pr" | cut -f1)
+  local branch=$(echo "$pr" | cut -f2)
+
+  # Sanitize branch name (replace slashes with dashes)
+  local safe_branch=$(echo "$branch" | tr '/' '-')
+
+  # Determine worktree path
+  local worktree_path="$HOME/.mux/src/$org/$safe_branch"
+
+  # Check if worktree already exists
+  if [ -d "$worktree_path" ]; then
+    echo "Worktree already exists: $worktree_path"
+    return 0
+  fi
+
+  # Fetch the PR branch and create worktree
+  gh pr checkout "$pr_number" --detach 2>/dev/null  # Ensures branch is fetched
+  git fetch origin "pull/$pr_number/head:$branch" 2>/dev/null || git fetch origin "$branch" 2>/dev/null
+
+  # Create the worktree
+  git worktree add "$worktree_path" "$branch"
+
+  echo "Created worktree at: $worktree_path"
+  echo "Run: cdev $org/$safe_branch"
 }
 
 px() {
