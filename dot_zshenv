@@ -1,0 +1,2 @@
+# Mise shims for non-interactive shells (IDEs, scripts, etc.)
+export PATH="$HOME/.local/share/mise/shims:$PATH"

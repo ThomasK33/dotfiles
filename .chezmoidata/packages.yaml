@@ -21,6 +21,7 @@ packages:
     - lazygit
     - lld
     - llvm
+    - mise
     - mcfly
     - mkcert
     - moreutils
