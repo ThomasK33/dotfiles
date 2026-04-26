@@ -33,7 +33,7 @@ WORDCHARS+='/'
 
 # Path extensions
 export PATH="${PATH}:${HOME}/.krew/bin"
-export PATH="$(go env GOPATH)/bin:$PATH"
+export PATH="$PATH:$(go env GOPATH)/bin"
 export PATH="${PATH}:${HOME}/.zvm/bin"
 # Add Ghostty CLI
 export PATH="${PATH}:/Applications/Ghostty.app/Contents/MacOS"
