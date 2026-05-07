@@ -14,49 +14,46 @@ packages:
     - git
     - git-delta
     - helm
-    - just
+    # - just
     - k9s
     - kubectx
     - kubernetes-cli
     - lazygit
     - lld
     - llvm
-    - mise
+    # Install mise manually so that it can self update
+    # - mise
     - mcfly
     - mkcert
     - moreutils
-    # Use bob for neovim management
-    # - neovim
-    - noahgorstein/tap/jqp
-    - node
-    - oha
+    # - noahgorstein/tap/jqp
+    # - node
+    # - oha
     - pv
     - ripgrep
     - starship
-    - syft
+    # - syft
     - tailscale
-    - tailspin
-    - terraform
+    # - tailspin
+    # - terraform
     - tmux
     - tmux-mem-cpu-load
     - topgrade
-    - trivy
-    - unxip
+    # - trivy
+    # - unxip
     - viddy
-    - witr
+    # - witr
     - wget
-    - xh
+    # - xh
     - yazi
     - zoxide
     casks:
-    # - 1password
     - 1password-cli
-    - alacritty
+    # - alacritty
     - alfred
-    # - arc
     - dbeaver-community
     - font-fira-code-nerd-font
-    - latest
+    # - latest
     - rectangle-pro
-    - wireshark
-    - xcodes
+    # - wireshark
+    # - xcodes

@@ -381,3 +381,4 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 
 # Mise activation (must be last to ensure mise paths are first in PATH)
 eval "$(mise activate zsh)"
+export MISE_PIN=1
