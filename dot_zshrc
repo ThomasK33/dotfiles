@@ -117,9 +117,6 @@ function yy() {
 	rm -f -- "$tmp"
 }
 
-# uv
-. "$HOME/.local/bin/env"
-
 # Claude Code
 
 ## IDE feature
@@ -380,5 +377,5 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
 # Mise activation (must be last to ensure mise paths are first in PATH)
-eval "$(mise activate zsh)"
+eval "$(~/.local/bin/mise activate zsh)"
 export MISE_PIN=1

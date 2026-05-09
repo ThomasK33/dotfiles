@@ -23,7 +23,7 @@ packages:
     - llvm
     # Install mise manually so that it can self update
     # - mise
-    # - mcfly         # managed by mise (aqua:cantino/mcfly)
+    - mcfly         # Needs to be managed by Brew, as maintainers don't have arm64 macos binaries on the releases
     # - mkcert        # managed by mise
     - moreutils
     # - noahgorstein/tap/jqp
