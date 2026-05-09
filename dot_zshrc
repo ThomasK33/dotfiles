@@ -161,7 +161,7 @@ export GOOGLE_CLOUD_PROJECT='coder-dev-1'
 export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
 
 export JJ_AI_AGENT="claude"
-source ~/Projects/jj-ai/ai.sh
+source ~/projects/jj-ai/ai.sh
 
 # Mux
 cx() {
