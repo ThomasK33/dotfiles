@@ -1,54 +1,54 @@
 packages:
   darwin:
     brews:
-    - age
-    - awscli
-    - bob
+    # - age           # managed by mise
+    # - awscli        # managed by mise (aws)
+    # - bob           # managed by mise
     - curl
-    - direnv
-    - doggo
-    - eza
-    - fastfetch
-    - fzf
-    - gh
+    # - direnv        # managed by mise
+    # - doggo         # managed by mise
+    # - eza           # managed by mise
+    # - fastfetch     # managed by mise
+    # - fzf           # managed by mise
+    # - gh            # managed by mise
     - git
-    - git-delta
-    - helm
+    # - git-delta     # managed by mise (delta)
+    # - helm           # managed by mise
     # - just
-    - k9s
-    - kubectx
-    - kubernetes-cli
-    - lazygit
+    # - k9s            # managed by mise
+    # - kubectx        # managed by mise
+    # - kubernetes-cli # managed by mise (kubectl)
+    # - lazygit       # managed by mise
     - lld
     - llvm
     # Install mise manually so that it can self update
     # - mise
-    - mcfly
-    - mkcert
+    # - mcfly         # managed by mise (aqua:cantino/mcfly)
+    # - mkcert        # managed by mise
     - moreutils
     # - noahgorstein/tap/jqp
     # - node
     # - oha
     - pv
-    - ripgrep
-    - starship
+    # - ripgrep       # managed by mise
+    # - starship      # managed by mise
     # - syft
     - tailscale
     # - tailspin
     # - terraform
-    - tmux
+    # - tmux          # managed by mise
     - tmux-mem-cpu-load
-    - topgrade
+    # - topgrade      # managed by mise
     # - trivy
     # - unxip
-    - viddy
+    # - viddy         # managed by mise
     # - witr
     - wget
     # - xh
-    - yazi
-    - zoxide
+    # - yazi          # managed by mise
+    # - zoxide        # managed by mise
     casks:
-    - 1password-cli
+    # - 1password-cli  # managed by mise
     # - alacritty
     - alfred
     - dbeaver-community
