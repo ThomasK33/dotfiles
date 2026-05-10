@@ -377,5 +377,6 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
 # Mise activation (must be last to ensure mise paths are first in PATH)
+export PATH="$HOME/.local/share/mise/shims:$PATH"
 eval "$(~/.local/bin/mise activate zsh)"
 export MISE_PIN=1
