@@ -3,6 +3,7 @@ packages:
     brews:
     # - age           # managed by mise
     # - awscli        # managed by mise (aws)
+    - bash
     # - bob           # managed by mise
     - curl
     # - direnv        # managed by mise
@@ -13,6 +14,7 @@ packages:
     # - gh            # managed by mise
     - git
     # - git-delta     # managed by mise (delta)
+    - gnu-getopt
     # - helm           # managed by mise
     # - just
     # - k9s            # managed by mise

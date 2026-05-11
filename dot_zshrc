@@ -380,3 +380,6 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 export PATH="$HOME/.local/share/mise/shims:$PATH"
 eval "$(~/.local/bin/mise activate zsh)"
 export MISE_PIN=1
+
+# gnu-getopt must come after mise activation so it takes priority over /usr/bin/getopt
+export PATH="$(brew --prefix gnu-getopt)/bin:$PATH"
