@@ -1,9 +1,14 @@
 [".config/nvim"]
 type = "git-repo"
-url = "git@github.com:ThomasK33/neovim-configs.git"
+url = "https://github.com/ThomasK33/neovim-configs.git"
 refreshPeriod = "1h"
 
 [".config/alacritty/themes"]
 type = "git-repo"
 url = "https://github.com/alacritty/alacritty-theme.git"
-refreshPeriod = "168h"                                   # one week
+refreshPeriod = "168h"                                    # one week
+
+["projects/jj-ai"]
+type = "git-repo"
+url = "https://github.com/ThomasK33/jj-ai.git"
+refreshPeriod = "1h"
