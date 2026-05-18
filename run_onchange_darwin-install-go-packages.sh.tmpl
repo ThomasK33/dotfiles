@@ -1,7 +1,0 @@
-{{ if eq .chezmoi.os "darwin" -}}
-#!/bin/bash
-
-{{ range .go.packages -}}
-go install {{ . }}@latest
-{{ end -}}
-{{ end -}}

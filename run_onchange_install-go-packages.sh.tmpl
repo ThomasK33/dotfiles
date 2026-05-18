@@ -1,0 +1,8 @@
+#!/bin/bash
+{{ if lookPath "go" -}}
+{{ range .go.packages -}}
+go install {{ . }}@latest
+{{ end -}}
+{{ else -}}
+echo "go not found on PATH; skipping go package installs" >&2
+{{ end -}}

@@ -1,61 +1,24 @@
 packages:
-  darwin:
-    brews:
-    # - age           # managed by mise
-    # - awscli        # managed by mise (aws)
+  # Cross-platform brews (installed wherever brew is on PATH).
+  brews:
     - bash
-    # - bob           # managed by mise
     - curl
-    # - direnv        # managed by mise
-    # - doggo         # managed by mise
-    # - eza           # managed by mise
-    # - fastfetch     # managed by mise
-    # - fzf           # managed by mise
-    # - gh            # managed by mise
     - git
-    # - git-delta     # managed by mise (delta)
-    - gnu-getopt
-    # - helm           # managed by mise
-    # - just
-    # - k9s            # managed by mise
-    # - kubectx        # managed by mise
-    # - kubernetes-cli # managed by mise (kubectl)
-    # - lazygit       # managed by mise
     - lld
     - llvm
-    # Install mise manually so that it can self update
-    # - mise
     - mcfly         # Needs to be managed by Brew, as maintainers don't have arm64 macos binaries on the releases
-    # - mkcert        # managed by mise
     - moreutils
-    # - noahgorstein/tap/jqp
-    # - node
-    # - oha
     - pv
-    # - ripgrep       # managed by mise
-    # - starship      # managed by mise
-    # - syft
-    - tailscale
-    # - tailspin
-    # - terraform
-    # - tmux          # managed by mise
     - tmux-mem-cpu-load
-    # - topgrade      # managed by mise
-    # - trivy
-    # - unxip
-    # - viddy         # managed by mise
-    # - witr
     - wget
-    # - xh
-    # - yazi          # managed by mise
-    # - zoxide        # managed by mise
+  darwin:
+    brews:
+      - gnu-getopt    # Linux has util-linux's getopt by default
+      - tailscale     # on Linux, install via the official package
     casks:
-    # - 1password-cli  # managed by mise
-    # - alacritty
-    - alfred
-    - dbeaver-community
-    - font-fira-code-nerd-font
-    # - latest
-    - rectangle-pro
-    # - wireshark
-    # - xcodes
+      - alfred
+      - dbeaver-community
+      - font-fira-code-nerd-font
+      - rectangle-pro
+  linux:
+    brews: []
