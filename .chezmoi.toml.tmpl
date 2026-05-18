@@ -1,3 +1,9 @@
 {{ $gitEmail := promptString "git email" -}}
+encryption = "age"
+
 [data]
 gitEmail = {{ $gitEmail | quote }}
+
+[age]
+identity = "~/.config/chezmoi/key.txt"
+recipient = "age15cdk2xlndveyzlrwdawx9094lqsxweetn6k9wecmphuz3tyh6y2qnac729"

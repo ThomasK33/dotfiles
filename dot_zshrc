@@ -62,12 +62,6 @@ alias cdr='/Users/thomask33/projects/coder/scripts/coder-dev.sh'
 alias commit-msg='claude -p "give me a good conventional commit message for the staged changes. do not perform a commit, only the message to put into the commit. output the message so that I can copy and paste it, only the first line, no extensive body description" | tr -d "\n" | tee >(pbcopy)'
 alias c='claude --allow-dangerously-skip-permissions'
 
-cc-coder() {
-  ANTHROPIC_BASE_URL="https://dev.coder.com/api/v2/aibridge/anthropic" \
-    ANTHROPIC_AUTH_TOKEN=$(security find-generic-password -s "coder-v2-credentials" -w | base64 -d | jq -rc '."dev.coder.com".api_token') \
-    claude --allow-dangerously-skip-permissions "$@"
-}
-
 # Shell completions
 source <(kubectl completion zsh)
 
@@ -113,9 +107,6 @@ export CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR=1
 export PNPM_HOME="/Users/thomask33/Library/pnpm"
 path_prepend "$PNPM_HOME"
 # pnpm end
-
-# Gemini CLI
-export GOOGLE_CLOUD_PROJECT='coder-dev-1'
 
 path_prepend "$HOME/.local/share/bob/nvim-bin"
 

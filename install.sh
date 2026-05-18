@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Bootstrap script auto-invoked by `coder dotfiles` and GitHub Codespaces.
-# Installs chezmoi (if missing) and applies this repo's dotfiles.
+# Installs chezmoi (if missing), fetches the age key from 1Password when
+# available, and applies this repo's dotfiles.
 set -euo pipefail
 
 SOURCE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -18,6 +19,26 @@ CHEZMOI_SRC="${HOME}/.local/share/chezmoi"
 if [[ "${SOURCE_DIR}" != "${CHEZMOI_SRC}" ]] && [[ ! -e "${CHEZMOI_SRC}" ]]; then
     mkdir -p "$(dirname "${CHEZMOI_SRC}")"
     ln -s "${SOURCE_DIR}" "${CHEZMOI_SRC}"
+fi
+
+# Pull the age private key from 1Password so chezmoi can decrypt the
+# encrypted files. Skipped silently when `op` isn't installed or no
+# session is active (typical for Coder workspaces / Codespaces); the
+# .chezmoiignore gate then excludes the encrypted files from apply.
+# Override the reference by setting CHEZMOI_AGE_KEY_OP_REF in the environment.
+AGE_KEY_FILE="${HOME}/.config/chezmoi/key.txt"
+OP_AGE_KEY_REF="${CHEZMOI_AGE_KEY_OP_REF:-op://Private/chezmoi-age-key/notesPlain}"
+if [[ ! -f "${AGE_KEY_FILE}" ]] \
+    && command -v op >/dev/null 2>&1 \
+    && op whoami </dev/null >/dev/null 2>&1; then
+    mkdir -p "$(dirname "${AGE_KEY_FILE}")"
+    if op read "${OP_AGE_KEY_REF}" </dev/null >"${AGE_KEY_FILE}.tmp" 2>/dev/null \
+        && [[ -s "${AGE_KEY_FILE}.tmp" ]]; then
+        chmod 600 "${AGE_KEY_FILE}.tmp"
+        mv "${AGE_KEY_FILE}.tmp" "${AGE_KEY_FILE}"
+    else
+        rm -f "${AGE_KEY_FILE}.tmp"
+    fi
 fi
 
 # .chezmoi.toml.tmpl prompts for "git email"; resolve a value so init is non-interactive.
