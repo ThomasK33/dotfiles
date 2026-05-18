@@ -10,6 +10,8 @@ sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply ThomasK33/dotfiles
 
 That installs chezmoi, clones this repo, and applies the dotfiles. You'll be prompted for a git email.
 
+> **Fresh machine:** if Homebrew or mise weren't already installed, the first apply installs them but can't put them on `PATH` for the same run. Open a new shell (or `exec $SHELL`) and run `chezmoi apply` once more — the package install scripts hash-bust on `lookPath` and will pick up the toolchain on the second pass. `install.sh` (used by Coder/Codespaces) handles this automatically.
+
 ## Coder workspaces / GitHub Codespaces
 
 Point them at this repo as your dotfiles source. `install.sh` runs automatically:

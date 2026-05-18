@@ -51,4 +51,23 @@ if [[ -z "${GIT_EMAIL}" ]] && [[ -n "${GITHUB_USER:-}" ]]; then
 fi
 : "${GIT_EMAIL:=$(whoami)@$(hostname)}"
 
-exec chezmoi init --apply --promptString "git email=${GIT_EMAIL}"
+chezmoi init --apply --promptString "git email=${GIT_EMAIL}"
+
+# The first apply runs run_onchange_before_install-toolchain.sh, which installs
+# brew and mise if missing — but they aren't on PATH for this shell yet, so the
+# run_onchange_install-*.sh.tmpl scripts skip on the same pass. Bring brew/mise
+# into PATH here, install mise's tools, then apply once more so the package
+# scripts hash-bust (via lookPath in their templates) and actually run.
+for BREW_BIN in /opt/homebrew/bin/brew /usr/local/bin/brew /home/linuxbrew/.linuxbrew/bin/brew; do
+    if [[ -x "${BREW_BIN}" ]]; then
+        eval "$(${BREW_BIN} shellenv)"
+        break
+    fi
+done
+
+if [[ -x "${HOME}/.local/bin/mise" ]]; then
+    export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/shims:${PATH}"
+    "${HOME}/.local/bin/mise" install
+fi
+
+exec chezmoi apply
