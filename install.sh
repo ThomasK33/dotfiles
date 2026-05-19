@@ -7,18 +7,18 @@ set -euo pipefail
 SOURCE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 if ! command -v chezmoi >/dev/null 2>&1; then
-    BIN_DIR="${HOME}/.local/bin"
-    mkdir -p "${BIN_DIR}"
-    sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "${BIN_DIR}"
-    export PATH="${BIN_DIR}:${PATH}"
+  BIN_DIR="${HOME}/.local/bin"
+  mkdir -p "${BIN_DIR}"
+  sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "${BIN_DIR}"
+  export PATH="${BIN_DIR}:${PATH}"
 fi
 
 # Link the cloned dotfiles into chezmoi's default source dir so subsequent
 # `chezmoi` invocations work without --source.
 CHEZMOI_SRC="${HOME}/.local/share/chezmoi"
 if [[ "${SOURCE_DIR}" != "${CHEZMOI_SRC}" ]] && [[ ! -e "${CHEZMOI_SRC}" ]]; then
-    mkdir -p "$(dirname "${CHEZMOI_SRC}")"
-    ln -s "${SOURCE_DIR}" "${CHEZMOI_SRC}"
+  mkdir -p "$(dirname "${CHEZMOI_SRC}")"
+  ln -s "${SOURCE_DIR}" "${CHEZMOI_SRC}"
 fi
 
 # Pull the age private key from 1Password so chezmoi can decrypt the
@@ -28,26 +28,26 @@ fi
 # Override the reference by setting CHEZMOI_AGE_KEY_OP_REF in the environment.
 AGE_KEY_FILE="${HOME}/.config/chezmoi/key.txt"
 OP_AGE_KEY_REF="${CHEZMOI_AGE_KEY_OP_REF:-op://Private/chezmoi-age-key/notesPlain}"
-if [[ ! -f "${AGE_KEY_FILE}" ]] \
-    && command -v op >/dev/null 2>&1 \
-    && op whoami </dev/null >/dev/null 2>&1; then
-    mkdir -p "$(dirname "${AGE_KEY_FILE}")"
-    if op read "${OP_AGE_KEY_REF}" </dev/null >"${AGE_KEY_FILE}.tmp" 2>/dev/null \
-        && [[ -s "${AGE_KEY_FILE}.tmp" ]]; then
-        chmod 600 "${AGE_KEY_FILE}.tmp"
-        mv "${AGE_KEY_FILE}.tmp" "${AGE_KEY_FILE}"
-    else
-        rm -f "${AGE_KEY_FILE}.tmp"
-    fi
+if [[ ! -f "${AGE_KEY_FILE}" ]] &&
+  command -v op >/dev/null 2>&1 &&
+  op whoami </dev/null >/dev/null 2>&1; then
+  mkdir -p "$(dirname "${AGE_KEY_FILE}")"
+  if op read "${OP_AGE_KEY_REF}" </dev/null >"${AGE_KEY_FILE}.tmp" 2>/dev/null &&
+    [[ -s "${AGE_KEY_FILE}.tmp" ]]; then
+    chmod 600 "${AGE_KEY_FILE}.tmp"
+    mv "${AGE_KEY_FILE}.tmp" "${AGE_KEY_FILE}"
+  else
+    rm -f "${AGE_KEY_FILE}.tmp"
+  fi
 fi
 
 # .chezmoi.toml.tmpl prompts for "git email"; resolve a value so init is non-interactive.
 GIT_EMAIL="${GIT_AUTHOR_EMAIL:-${EMAIL:-}}"
 if [[ -z "${GIT_EMAIL}" ]]; then
-    GIT_EMAIL="$(git config --global --get user.email 2>/dev/null || true)"
+  GIT_EMAIL="$(git config --global --get user.email 2>/dev/null || true)"
 fi
 if [[ -z "${GIT_EMAIL}" ]] && [[ -n "${GITHUB_USER:-}" ]]; then
-    GIT_EMAIL="${GITHUB_USER}@users.noreply.github.com"
+  GIT_EMAIL="${GITHUB_USER}@users.noreply.github.com"
 fi
 : "${GIT_EMAIL:=$(whoami)@$(hostname)}"
 
@@ -59,15 +59,15 @@ chezmoi init --apply --promptString "git email=${GIT_EMAIL}"
 # into PATH here, install mise's tools, then apply once more so the package
 # scripts hash-bust (via lookPath in their templates) and actually run.
 for BREW_BIN in /opt/homebrew/bin/brew /usr/local/bin/brew /home/linuxbrew/.linuxbrew/bin/brew; do
-    if [[ -x "${BREW_BIN}" ]]; then
-        eval "$(${BREW_BIN} shellenv)"
-        break
-    fi
+  if [[ -x "${BREW_BIN}" ]]; then
+    eval "$(${BREW_BIN} shellenv)"
+    break
+  fi
 done
 
 if [[ -x "${HOME}/.local/bin/mise" ]]; then
-    export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/shims:${PATH}"
-    "${HOME}/.local/bin/mise" install
+  export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/shims:${PATH}"
+  "${HOME}/.local/bin/mise" install
 fi
 
-exec chezmoi apply
+exec chezmoi apply --force
