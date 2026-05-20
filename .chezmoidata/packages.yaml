@@ -20,5 +20,6 @@ packages:
       - dbeaver-community
       - font-fira-code-nerd-font
       - rectangle-pro
+      - steipete/tap/codexbar
   linux:
     brews: []
