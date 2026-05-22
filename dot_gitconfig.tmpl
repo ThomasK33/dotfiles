@@ -1,3 +1,5 @@
+{{- $opSign := "/Applications/1Password.app/Contents/MacOS/op-ssh-sign" -}}
+{{- $sign := stat $opSign -}}
 [core]
 excludesfile = /Users/thomask33/.gitignore_global
 editor = nvim
@@ -5,16 +7,20 @@ editor = nvim
 [user]
 email = {{ .gitEmail | quote }}
 name = Thomas Kosiewski
+{{- if $sign }}
 signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFW/uF+WgwedP2hwAGyXWUT22QNYWWue7OBTYxehocAy
+{{- end }}
 
 [filter "lfs"]
 clean = git-lfs clean -- %f
 smudge = git-lfs smudge -- %f
 process = git-lfs filter-process
 required = true
+{{- if $sign }}
 
 [tag]
 forceSignAnnotated = true
+{{- end }}
 
 [init]
 templatedir = ~/.git_template
@@ -22,30 +28,25 @@ defaultBranch = main
 
 [format]
 signoff = true
+{{- if $sign }}
 
 [gpg]
 program = gpg
 format = ssh
 
 [gpg "ssh"]
-program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+program = {{ $opSign }}
 allowedSignersFile = ""
 
 [commit]
 gpgsign = true
+{{- end }}
 
-# Delta
 [core]
 pager = hunk pager
 
 [interactive]
 diffFilter = delta --color-only
-
-[delta]
-navigate = true    # use n and N to move between diff sections
-light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
-line-numbers = true
-side-by-side = true
 
 [merge]
 conflictstyle = diff3
