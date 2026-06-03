@@ -121,5 +121,6 @@ source "$HOME/.config/zsh/worktree-functions.zsh"
 eval "$(~/.local/bin/mise activate zsh)"
 export MISE_PIN=1
 
-# gnu-getopt must come after mise activation so it takes priority over /usr/bin/getopt
-path_prepend "$(brew --prefix gnu-getopt)/bin"
+# gnu-getopt is force-prepended in .zshenv for all shells; re-assert it after
+# mise activation so it stays ahead of /usr/bin even if mise reordered PATH.
+path_force_prepend "$(brew --prefix gnu-getopt)/bin"

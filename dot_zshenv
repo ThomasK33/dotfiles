@@ -3,5 +3,29 @@
 path_prepend() { case ":$PATH:" in *":$1:"*) ;; *) export PATH="$1:$PATH" ;; esac; }
 path_append()  { case ":$PATH:" in *":$1:"*) ;; *) export PATH="$PATH:$1" ;; esac; }
 
+# Force $1 to the FRONT of PATH, removing any existing occurrence first.
+# Unlike path_prepend, this reorders an entry that is already present in a
+# lower-priority position instead of leaving it where it is.
+path_force_prepend() {
+	local dir=$1 p=":$PATH:"
+	p=${p//":$dir:"/":"}
+	p=${p#:}
+	p=${p%:}
+	export PATH="$dir:$p"
+}
+
 # Mise shims for non-interactive shells (IDEs, scripts, etc.)
 path_prepend "$HOME/.local/share/mise/shims"
+
+# GNU getopt must win over BSD /usr/bin/getopt for the Coder repo scripts in
+# every shell, including non-interactive ones (git hooks, editors). Force it
+# ahead of /usr/bin even when an ancestor shell already added it lower in
+# PATH. Hardcoded (not `brew --prefix`) so .zshenv stays fast for every shell.
+[ -d /opt/homebrew/opt/gnu-getopt/bin ] && path_force_prepend /opt/homebrew/opt/gnu-getopt/bin
+
+# zoxide's "doctor" misfires in non-interactive shells that replay a captured
+# shell snapshot (e.g. Claude Code / coding agents): the snapshot restores the
+# zoxide functions but not the chpwd_functions hook array, so `cd` warns once
+# per shell. Harmless there — silence it globally. Set in .zshenv (not .zshrc)
+# so it applies to those non-interactive shells too, before the snapshot runs.
+export _ZO_DOCTOR=0

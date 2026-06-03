@@ -11,6 +11,7 @@ packages:
     - pv
     - tmux-mem-cpu-load
     - wget
+    - ttyd
   darwin:
     brews:
       - gnu-getopt    # Linux has util-linux's getopt by default
