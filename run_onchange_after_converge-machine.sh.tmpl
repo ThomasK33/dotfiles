@@ -1,0 +1,36 @@
+#!/bin/sh
+# Bridge between chezmoi and mise: re-run `mise bootstrap` whenever the
+# machine-setup config or the synced skills change, so a plain
+# `chezmoi apply` (incl. topgrade's chezmoi step) still converges
+# packages/repos/tools/skill-links without a separate command.
+# mise config hash: {{ include "mise_config.toml" | sha256sum }}
+# skill-lock hash: {{ include ".agents/.skill-lock.json" | sha256sum }}
+# store skills: {{ range glob (joinPath .chezmoi.sourceDir ".agents/skills/*") }}{{ . | base }} {{ end }}
+# mise present: {{ lookPath "mise" }}{{ if stat (joinPath .chezmoi.homeDir ".local/bin/mise") }} ~/.local/bin/mise{{ end }}
+set -eu
+
+# install.sh runs `mise bootstrap` itself right after this apply.
+if [ -n "${DOTFILES_DEFER_BOOTSTRAP:-}" ]; then
+  exit 0
+fi
+
+# No mise yet: skip quietly. The "mise present" template line above changes
+# once mise appears, so the script re-fires on the next apply after that.
+if command -v mise >/dev/null 2>&1; then
+  MISE_BIN="mise"
+elif [ -x "$HOME/.local/bin/mise" ]; then
+  MISE_BIN="$HOME/.local/bin/mise"
+else
+  exit 0
+fi
+
+# `mise bootstrap` needs mise >= 2026.7; on older mise the name resolves to
+# the [tasks.bootstrap] shorthand and silently skips packages/repos/tools.
+MISE_VERSION="$("$MISE_BIN" version 2>/dev/null | cut -d' ' -f1 || true)"
+if [ "$(printf '%s\n2026.7.0\n' "$MISE_VERSION" | sort -V | head -n1)" != "2026.7.0" ]; then
+  echo "mise ${MISE_VERSION:-unknown} is too old for 'mise bootstrap' (needs >= 2026.7);" >&2
+  echo "upgrade it (e.g. 'mise self-update'), then re-run 'chezmoi apply'." >&2
+  exit 1
+fi
+
+exec "$MISE_BIN" bootstrap --yes

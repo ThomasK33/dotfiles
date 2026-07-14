@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Bootstrap script auto-invoked by `coder dotfiles` and GitHub Codespaces.
 # Installs chezmoi (if missing), fetches the age key from 1Password when
-# available, and applies this repo's dotfiles.
+# available, applies this repo's dotfiles, then hands machine setup
+# (Homebrew, brew packages, repo clones, tools) to `mise bootstrap`.
 set -euo pipefail
 
 SOURCE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -51,23 +52,24 @@ if [[ -z "${GIT_EMAIL}" ]] && [[ -n "${GITHUB_USER:-}" ]]; then
 fi
 : "${GIT_EMAIL:=$(whoami)@$(hostname)}"
 
-chezmoi init --apply --promptString "git email=${GIT_EMAIL}"
+# --force: provisioning runs non-interactively (Coder rebuilds, Codespaces),
+# so overwrite drifted targets instead of prompting — same semantics as the
+# `chezmoi apply --force` the pre-mise-bootstrap version of this script ran.
+# DOTFILES_DEFER_BOOTSTRAP keeps the converge-machine bridge script from
+# running `mise bootstrap` mid-apply; we run it ourselves below.
+DOTFILES_DEFER_BOOTSTRAP=1 chezmoi init --apply --force --promptString "git email=${GIT_EMAIL}"
 
-# The first apply runs run_onchange_before_install-toolchain.sh, which installs
-# brew and mise if missing — but they aren't on PATH for this shell yet, so the
-# run_onchange_install-*.sh.tmpl scripts skip on the same pass. Bring brew/mise
-# into PATH here, install mise's tools, then apply once more so the package
-# scripts hash-bust (via lookPath in their templates) and actually run.
-for BREW_BIN in /opt/homebrew/bin/brew /usr/local/bin/brew /home/linuxbrew/.linuxbrew/bin/brew; do
-  if [[ -x "${BREW_BIN}" ]]; then
-    eval "$(${BREW_BIN} shellenv)"
-    break
-  fi
-done
-
-if [[ -x "${HOME}/.local/bin/mise" ]]; then
-  export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/shims:${PATH}"
-  "${HOME}/.local/bin/mise" install
+# The apply above put ~/.config/mise/config.toml in place; `mise bootstrap`
+# does the rest in one ordered pass: Homebrew via the pre-packages hook,
+# [bootstrap.packages], [bootstrap.repos], [tools], and the bootstrap task.
+# The subcommand needs mise >= 2026.7, so install/refresh mise when it's
+# missing or too old (mise.run installs to ~/.local/bin, which is first on
+# PATH here and therefore wins over any older mise elsewhere).
+export PATH="${HOME}/.local/bin:${PATH}"
+MISE_VERSION="$(mise version 2>/dev/null | cut -d' ' -f1 || true)"
+if [[ "$(printf '%s\n2026.7.0\n' "${MISE_VERSION}" | sort -V | head -n1)" != "2026.7.0" ]]; then
+  echo "Installing mise..."
+  curl -fsSL https://mise.run | sh
 fi
-
-exec chezmoi apply --force
+cd "${HOME}"
+exec mise bootstrap --yes

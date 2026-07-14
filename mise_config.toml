@@ -2,6 +2,7 @@
 "aqua:vercel-labs/agent-browser" = "0.31.2"
 "github:agavra/tuicr" = "0.19.1"
 "go:github.com/Gelio/go-global-update" = "0.2.5"
+"go:github.com/ramonvermeulen/whosthere" = "0.8.2"
 "npm:@openai/codex" = "0.144.4"
 "npm:@tobilu/qmd" = "2.5.3"
 "npm:agent-tty" = "0.5.0"
@@ -57,3 +58,138 @@ minimum_release_age = "0d"
 
 [settings.github]
 use_git_credentials = true
+
+# --- machine setup (`mise bootstrap`) ---------------------------------------
+# Declarative machine state; converges on every run. The Coder/Codespaces
+# entry point is install.sh, which applies the dotfiles and then runs
+# `mise bootstrap --yes`.
+
+[bootstrap.packages]
+# Cross-platform brews (installed wherever brew is, incl. linuxbrew).
+"brew:bash" = "latest"
+"brew:curl" = "latest"
+"brew:git" = "latest"
+"brew:lld" = "latest"
+"brew:llvm" = "latest"
+"brew:mcfly" = "latest"            # brew-only: no arm64 macos binaries on the releases
+"brew:moreutils" = "latest"
+"brew:pv" = "latest"
+"brew:tmux-mem-cpu-load" = "latest"
+"brew:ttyd" = "latest"
+"brew:wget" = "latest"
+# No casks here: mise's brew-cask backend bypasses the brew binary (its own
+# metadata fetch + artifact extraction) and as of 2026.7.5 misdetects
+# installed casks (counts Caskroom/.metadata as a version) and can fail
+# extracting DMGs. Casks are installed with real brew in
+# bootstrap:darwin-extras below. Darwin-only formulas (gnu-getopt, tailscale)
+# also live there since package entries have no per-OS filter.
+
+# Third-party read-only checkouts; converged (fetched/updated) on every run.
+# Self-owned working repos (nvim config, jj-ai) are NOT listed here — the
+# repos phase refuses dirty worktrees, which those often are. The
+# bootstrap:clone-repos task clones them once instead.
+[bootstrap.repos]
+"~/.tmux/plugins/tpm" = { url = "https://github.com/tmux-plugins/tpm.git" }
+
+# Install Homebrew itself before the packages phase needs it. mise finds brew
+# in its standard install locations even when it isn't on PATH yet.
+[bootstrap.hooks.pre-packages]
+run = '''
+set -eu
+for candidate in /opt/homebrew/bin/brew /usr/local/bin/brew /home/linuxbrew/.linuxbrew/bin/brew; do
+  if [ -x "$candidate" ]; then exit 0; fi
+done
+if ! command -v curl >/dev/null 2>&1; then
+  echo "curl not found; cannot install Homebrew" >&2
+  exit 1
+fi
+echo "Installing Homebrew..."
+installer="$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+NONINTERACTIVE=1 /bin/bash -c "$installer"
+'''
+
+# Runs on every `mise bootstrap`, after packages/repos/tools; keep idempotent.
+[tasks.bootstrap]
+description = "Machine setup that doesn't fit the declarative bootstrap sections"
+depends = ["bootstrap:clone-repos", "bootstrap:darwin-extras", "bootstrap:link-agent-skills"]
+
+[tasks."bootstrap:clone-repos"]
+description = "Clone self-managed repos once; they're updated by hand, not by bootstrap"
+hide = true
+run = '''
+#!/bin/sh
+# -L too: don't try to clone over (or silently break on) a dangling symlink.
+set -eu
+[ -e "$HOME/.config/nvim" ] || [ -L "$HOME/.config/nvim" ] || git clone https://github.com/ThomasK33/neovim-configs.git "$HOME/.config/nvim"
+[ -e "$HOME/projects/jj-ai" ] || [ -L "$HOME/projects/jj-ai" ] || git clone https://github.com/ThomasK33/jj-ai.git "$HOME/projects/jj-ai"
+'''
+
+[tasks."bootstrap:darwin-extras"]
+description = "Darwin-only brew installs that [bootstrap.packages] can't express"
+hide = true
+run = '''
+#!/usr/bin/env bash
+set -euo pipefail
+[ "$(uname -s)" = "Darwin" ] || exit 0
+if ! command -v brew >/dev/null 2>&1; then
+  for b in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+    if [ -x "$b" ]; then eval "$("$b" shellenv)" && break; fi
+  done
+fi
+command -v brew >/dev/null 2>&1 || { echo "brew not found; skipping darwin extras" >&2; exit 0; }
+# One brew bundle run (like the old run_onchange script): attempts every
+# entry even if one fails, and upgrades outdated ones. Casks go through real
+# brew here — see the [bootstrap.packages] note. gnu-getopt: Linux has
+# util-linux's getopt by default; tailscale: on Linux, use the official
+# distro package instead.
+brew bundle --file=/dev/stdin <<'EOF'
+brew "gnu-getopt"
+brew "tailscale"
+cask "alfred"
+cask "dbeaver-community"
+cask "font-fira-code-nerd-font"
+cask "rectangle-pro"
+cask "steipete/tap/codexbar"
+EOF
+'''
+
+[tasks."bootstrap:link-agent-skills"]
+description = "Mirror the synced skills store (~/.agents/skills) into per-agent skills dirs"
+hide = true
+run = '''
+#!/bin/sh
+# Recreate the symlinks the skills CLI makes on install and prune links
+# whose store skill no longer exists.
+set -eu
+
+store="$HOME/.agents/skills"
+[ -d "$store" ] || exit 0
+
+link_agent() {
+  agent_dir=$1
+  rel=$2
+
+  mkdir -p "$agent_dir"
+
+  for skill in "$store"/*/; do
+    [ -d "$skill" ] || continue
+    name=$(basename "$skill")
+    link="$agent_dir/$name"
+    if [ -L "$link" ] || [ ! -e "$link" ]; then
+      ln -sfn "$rel/$name" "$link"
+    fi
+  done
+
+  for link in "$agent_dir"/*; do
+    [ -L "$link" ] || continue
+    case $(readlink "$link") in
+    "$rel"/* | "$HOME/.agents/skills/"*)
+      [ -e "$link" ] || rm -f "$link"
+      ;;
+    esac
+  done
+}
+
+link_agent "$HOME/.claude/skills" "../../.agents/skills"
+link_agent "$HOME/.mux/skills" "../../.agents/skills"
+'''

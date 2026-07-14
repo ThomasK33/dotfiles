@@ -71,6 +71,11 @@ disable = ["containers", "pnpm", "tlmgr"]
 
 # Custom commands
 [commands]
+# Converge declarative machine state (brew packages, repos, tools, bootstrap
+# task); replaces the repo auto-refresh chezmoi externals used to do.
+# cd ~: run against the global config — inside a project dir, a local
+# mise.toml would shadow the machine-setup [tasks.bootstrap] and tools.
+"mise bootstrap" = "cd ~ && mise bootstrap --yes"
 #"Python Environment" = "~/dev/.env/bin/pip install -i https://pypi.python.org/simple -U --upgrade-strategy eager jupyter"
 
 [brew]
