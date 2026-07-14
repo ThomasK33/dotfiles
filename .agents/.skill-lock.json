@@ -1,15 +1,6 @@
 {
   "version": 3,
   "skills": {
-    "agent-browser": {
-      "source": "vercel-labs/agent-browser",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/vercel-labs/agent-browser.git",
-      "skillPath": "skills/agent-browser/SKILL.md",
-      "skillFolderHash": "c1470a475a0472fceda2401ea6763708a91680a8",
-      "installedAt": "2026-03-12T18:08:38.207Z",
-      "updatedAt": "2026-05-08T13:12:30.195Z"
-    },
     "codebase-design": {
       "source": "mattpocock/skills",
       "sourceType": "github",
@@ -19,15 +10,6 @@
       "pluginName": "mattpocock-skills",
       "installedAt": "2026-07-14T07:44:46.759Z",
       "updatedAt": "2026-07-14T07:44:46.759Z"
-    },
-    "deslop": {
-      "source": "brianlovin/claude-config",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/brianlovin/claude-config.git",
-      "skillPath": "skills/deslop/SKILL.md",
-      "skillFolderHash": "f5a57c61eaf9f0437029846d7ccf09f497e5e081",
-      "installedAt": "2026-05-01T08:55:23.279Z",
-      "updatedAt": "2026-05-01T08:55:23.279Z"
     },
     "diagnosing-bugs": {
       "source": "mattpocock/skills",
@@ -54,9 +36,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/drogers0/gh-image.git",
       "skillPath": "skills/github-image-upload/SKILL.md",
-      "skillFolderHash": "aeff5ec99e42d2ccdda65c04fe00d4a74d2a9356",
+      "skillFolderHash": "d4170b544b488d7e87145f95c4ed205d4bb6105d",
       "installedAt": "2026-06-15T11:13:54.708Z",
-      "updatedAt": "2026-06-15T11:13:54.708Z"
+      "updatedAt": "2026-07-14T11:23:33.274Z"
     },
     "grill-me": {
       "source": "mattpocock/skills",
@@ -182,10 +164,18 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/productivity/writing-great-skills/SKILL.md",
-      "skillFolderHash": "9252419010c7944edb297aa79b3f61a338a4f1f2",
-      "pluginName": "mattpocock-skills",
+      "skillFolderHash": "81d36946d48842f90358d8af54e3cdcc141f8e01",
       "installedAt": "2026-06-18T13:33:18.110Z",
-      "updatedAt": "2026-06-18T13:33:18.110Z"
+      "updatedAt": "2026-07-14T11:23:31.996Z"
+    },
+    "agent-browser": {
+      "source": "vercel-labs/agent-browser",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/agent-browser.git",
+      "skillPath": "skills/agent-browser/SKILL.md",
+      "skillFolderHash": "9b31e495b887e4ca123960415eca69fc7e1bba28",
+      "installedAt": "2026-07-14T11:22:10.844Z",
+      "updatedAt": "2026-07-14T11:22:10.844Z"
     }
   },
   "dismissed": {
