@@ -1,0 +1,39 @@
+#!/bin/sh
+# Mirror the synced skills store (~/.agents/skills) into per-agent skills dirs,
+# recreating the symlinks the skills CLI makes on install and pruning links
+# whose store skill no longer exists. Re-runs when the skill set changes:
+# skill-lock hash: {{ include ".agents/.skill-lock.json" | sha256sum }}
+# store skills: {{ range glob (joinPath .chezmoi.sourceDir ".agents/skills/*") }}{{ . | base }} {{ end }}
+
+set -eu
+
+store="$HOME/.agents/skills"
+[ -d "$store" ] || exit 0
+
+link_agent() {
+  agent_dir=$1
+  rel=$2
+
+  mkdir -p "$agent_dir"
+
+  for skill in "$store"/*/; do
+    [ -d "$skill" ] || continue
+    name=$(basename "$skill")
+    link="$agent_dir/$name"
+    if [ -L "$link" ] || [ ! -e "$link" ]; then
+      ln -sfn "$rel/$name" "$link"
+    fi
+  done
+
+  for link in "$agent_dir"/*; do
+    [ -L "$link" ] || continue
+    case $(readlink "$link") in
+    "$rel"/* | "$HOME/.agents/skills/"*)
+      [ -e "$link" ] || rm -f "$link"
+      ;;
+    esac
+  done
+}
+
+link_agent "$HOME/.claude/skills" "../../.agents/skills"
+link_agent "$HOME/.mux/skills" "../../.agents/skills"
