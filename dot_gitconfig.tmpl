@@ -63,3 +63,8 @@ prompt = false
 
 [push]
 followTags = false
+
+# Machine-local additions (e.g. gh credential helpers) live outside the
+# chezmoi-managed file so they don't show up as drift on apply.
+[include]
+path = ~/.gitconfig.local
