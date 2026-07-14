@@ -1,6 +1,7 @@
 ---
 name: prototype
 description: Build a throwaway prototype to answer a design question. Use when the user wants to sanity-check whether a state model or logic feels right, or explore what a UI should look like.
+disable-model-invocation: true
 ---
 
 # Prototype
@@ -24,3 +25,23 @@ The two branches produce very different artifacts — getting this wrong wastes 
 4. **Skip the polish.** No tests, no error handling beyond what makes the prototype _runnable_, no abstractions. The point is to learn something fast.
 5. **Surface the state.** After every action (logic) or on every variant switch (UI), print or render the full relevant state so the user can see what changed.
 6. **Capture it when done.** Fold any validated decision into the real code, then capture the prototype itself as a **primary source**: commit it to a throwaway branch, out of main, and leave a context pointer to that branch on the implementation issue. Capture the answer too — the verdict and the question it settled — in the issue or a commit. The main branch keeps only the validated decision.
+
+## Running long-lived prototypes
+
+If the prototype is a server, watcher, or interactive terminal harness that should keep running while you continue elsewhere, start it as a monitored background bash. Monitor only line-oriented readiness or failure output, and keep the prototype's one-command rule intact.
+
+```ts
+bash({
+  script: "bun path/to/prototype.ts",
+  display_name: "Prototype harness",
+  run_in_background: true,
+  timeout_secs: 1800,
+  monitor: {
+    filter: "ready|listening|FAIL|ERROR|AssertionError",
+    cooldown_ms: 1000,
+    max_events: 5,
+  },
+});
+```
+
+Call `task_await` only when the wake line is not enough context.

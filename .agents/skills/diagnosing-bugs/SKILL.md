@@ -30,6 +30,26 @@ Spend disproportionate effort here. **Be aggressive. Be creative. Refuse to give
 
 Build the right feedback loop, and the bug is 90% fixed.
 
+### Use `bash.monitor` for log-driven repro loops
+
+When the feedback loop is one long-running command whose stdout/stderr will reveal the bug (dev server logs, watch tests, fuzz loops, stress scripts), prefer a monitored background bash instead of parent-side polling:
+
+```ts
+bash({
+  script: "bun test --watch path/to/repro.test.ts",
+  display_name: "Bug repro watch",
+  run_in_background: true,
+  timeout_secs: 1800,
+  monitor: {
+    filter: "FAIL|FAILED|ERROR|panic|reproduced|AssertionError",
+    cooldown_ms: 1000,
+    max_events: 5,
+  },
+});
+```
+
+Use the wake as the signal that the loop went red or reached an interesting state. Call `task_await` once only when you need surrounding logs; keep GitHub/API polling in a background task/workflow monitor.
+
 ### Tighten the loop
 
 Treat the loop as a product. Once you have _a_ loop, **tighten** it:
