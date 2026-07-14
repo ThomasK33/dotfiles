@@ -61,6 +61,8 @@ alias cm='chezmoi'
 alias cdr='/Users/thomask33/projects/coder/scripts/coder-dev.sh'
 alias commit-msg='claude -p "give me a good conventional commit message for the staged changes. do not perform a commit, only the message to put into the commit. output the message so that I can copy and paste it, only the first line, no extensive body description" | tr -d "\n" | tee >(pbcopy)'
 alias c='claude --allow-dangerously-skip-permissions'
+alias att='agent-tty'
+alias m='mise'
 
 # Shell completions
 source <(kubectl completion zsh)
