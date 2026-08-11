@@ -1,6 +1,6 @@
-/mise_config.toml
-/install.sh
-/README.md
+mise_config.toml
+install.sh
+README.md
 {{- if not (stat (joinPath .chezmoi.homeDir ".config/chezmoi/key.txt")) }}
 .aws/config
 .ssh/config

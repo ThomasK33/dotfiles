@@ -7,7 +7,8 @@ Please produce minimal code to implement a given task or remediate the issue whi
 ### Planing
 
 When planning changes to the codebase, make sure to include not only clear acceptance criteria but also a dedicated section on dogfooding the changes.
-For example: 
+For example:
+
 - If the changes are conducted to a cli, this section should include dedicated instructions on how to set up a testing environment and how to dogfood the changes.
 - If the changes are frontend- or web app-related, this section should include instructions on how to set up a dev server and use something like agent-browser to interact with the website. (Verification if functional can then be performed using snapshots, if visual verification is required, then create screenshots and `attach_file` them)
 
