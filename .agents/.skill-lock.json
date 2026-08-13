@@ -24,19 +24,18 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/engineering/domain-modeling/SKILL.md",
-      "skillFolderHash": "959e63161ff78b4b1cd553b2c0e09e0c68418e5f",
-      "pluginName": "mattpocock-skills",
+      "skillFolderHash": "05c3244ec75b7548bbc2b635b0624bb9f70369c3",
       "installedAt": "2026-07-14T07:44:46.761Z",
-      "updatedAt": "2026-07-14T07:44:46.761Z"
+      "updatedAt": "2026-08-13T13:19:16.011Z"
     },
     "github-image-upload": {
       "source": "drogers0/gh-image",
       "sourceType": "github",
       "sourceUrl": "https://github.com/drogers0/gh-image.git",
       "skillPath": "skills/github-image-upload/SKILL.md",
-      "skillFolderHash": "d4170b544b488d7e87145f95c4ed205d4bb6105d",
+      "skillFolderHash": "95083426146765e8bc616ec7756b494d00da0bae",
       "installedAt": "2026-06-15T11:13:54.708Z",
-      "updatedAt": "2026-07-14T11:23:33.274Z"
+      "updatedAt": "2026-08-11T09:21:33.725Z"
     },
     "grill-me": {
       "source": "mattpocock/skills",

@@ -7,17 +7,17 @@
 "npm:@tobilu/qmd" = "2.5.3"
 "npm:agent-tty" = "0.5.0"
 "npm:ai-cli" = "0.4.3"
-"npm:hunkdiff" = "0.18.0"
-"npm:mux" = "0.28.1"
+"npm:hunkdiff" = "0.18.1"
+"npm:mux" = "0.28.2"
 1password-cli = "2.38.1"
 actionlint = "1.7.12"
 age = "1.3.1"
-aube = "1.38.1"
-aws = { version = "2.36.20", symlink_bins = "true" }
+aube = "1.39.0"
+aws = { version = "2.36.22", symlink_bins = "true" }
 bat = "0.26.1"
 bob = "4.1.7"
 chezmoi = "2.72.0"
-claude-code = "2.1.224"
+claude-code = "2.1.231"
 coder = "2.35.3"
 container = "1.2.2"
 delta = "0.19.2"
@@ -28,13 +28,13 @@ fd = "10.4.2"
 ffmpeg = "9.0.0"
 fzf = "0.74.2"
 gh = "2.97.0"
-glow = "2.1.2"
+glow = "3.0.0"
 go = "1.26.5"
 helm = "4.2.3"
 k9s = "0.51.0"
 kubectl = "1.36.3"
 kubectx = "0.11.0"
-lazygit = "0.64.0"
+lazygit = "0.64.1"
 make = "4.4.1"
 mkcert = "1.4.4"
 node = "26.7.0"
@@ -73,7 +73,7 @@ use_git_credentials = true
 "brew:git" = "latest"
 "brew:lld" = "latest"
 "brew:llvm" = "latest"
-"brew:mcfly" = "latest"            # brew-only: no arm64 macos binaries on the releases
+"brew:mcfly" = "latest"             # brew-only: no arm64 macos binaries on the releases
 "brew:moreutils" = "latest"
 "brew:pv" = "latest"
 "brew:tmux-mem-cpu-load" = "latest"
@@ -86,12 +86,20 @@ use_git_credentials = true
 # bootstrap:darwin-extras below. Darwin-only formulas (gnu-getopt, tailscale)
 # also live there since package entries have no per-OS filter.
 
-# Third-party read-only checkouts; converged (fetched/updated) on every run.
-# Self-owned working repos (nvim config, jj-ai) are NOT listed here — the
-# repos phase refuses dirty worktrees, which those often are. The
-# bootstrap:clone-repos task clones them once instead.
+# Git checkouts, cloned when missing. With no ref pinned, `mise bootstrap`
+# leaves existing checkouts untouched; updating is explicit via
+# `mise bootstrap repos update` (ff-only), which fails on dirty worktrees —
+# resolve those by hand rather than having bootstrap work around them.
 [bootstrap.repos]
+"~/.config/nvim" = { url = "https://github.com/ThomasK33/neovim-configs.git" }
 "~/.tmux/plugins/tpm" = { url = "https://github.com/tmux-plugins/tpm.git" }
+"~/projects/jj-ai" = { url = "https://github.com/ThomasK33/jj-ai.git" }
+
+# Login shell; mise appends it to /etc/shells (sudo if needed) and runs chsh
+# only when it differs. /bin/zsh is the system zsh on macOS; on Linux it
+# resolves via merged /usr but needs the distro zsh package installed.
+[bootstrap.user]
+login_shell = "/bin/zsh"
 
 # Install Homebrew itself before the packages phase needs it. mise finds brew
 # in its standard install locations even when it isn't on PATH yet.
@@ -113,18 +121,10 @@ NONINTERACTIVE=1 /bin/bash -c "$installer"
 # Runs on every `mise bootstrap`, after packages/repos/tools; keep idempotent.
 [tasks.bootstrap]
 description = "Machine setup that doesn't fit the declarative bootstrap sections"
-depends = ["bootstrap:clone-repos", "bootstrap:darwin-extras", "bootstrap:link-agent-skills"]
-
-[tasks."bootstrap:clone-repos"]
-description = "Clone self-managed repos once; they're updated by hand, not by bootstrap"
-hide = true
-run = '''
-#!/bin/sh
-# -L too: don't try to clone over (or silently break on) a dangling symlink.
-set -eu
-[ -e "$HOME/.config/nvim" ] || [ -L "$HOME/.config/nvim" ] || git clone https://github.com/ThomasK33/neovim-configs.git "$HOME/.config/nvim"
-[ -e "$HOME/projects/jj-ai" ] || [ -L "$HOME/projects/jj-ai" ] || git clone https://github.com/ThomasK33/jj-ai.git "$HOME/projects/jj-ai"
-'''
+depends = [
+  "bootstrap:darwin-extras",
+  "bootstrap:link-agent-skills",
+]
 
 [tasks."bootstrap:darwin-extras"]
 description = "Darwin-only brew installs that [bootstrap.packages] can't express"
