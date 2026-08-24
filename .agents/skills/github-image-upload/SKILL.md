@@ -10,22 +10,14 @@ description: >-
   document or attach files to changes on GitHub. Powered by the `gh-image` gh CLI
   extension.
 license: MIT
+compatibility: Requires the GitHub CLI (`gh`), network access to GitHub, and the `drogers0/gh-image` extension v1.1.0 or newer.
 # gh pr/issue edit and comment are listed for hosts that check each pipeline stage;
 # whole-string matchers resolve them via the leading printf.
-allowed-tools:
-  - Glob
-  - Bash(gh auth status)
-  - Bash(gh extension list:*)
-  - Bash(gh image:*)
-  - Bash(gh pr view:*)
-  - Bash(gh pr edit:*)
-  - Bash(gh pr comment:*)
-  - Bash(gh issue view:*)
-  - Bash(gh issue edit:*)
-  - Bash(gh issue comment:*)
-  - Bash(printf:*)
-  - Bash(grep:*)
-  - Bash(cat:*)
+allowed-tools: >-
+  Glob Bash(gh auth status) Bash(gh extension list:*) Bash(gh image:*)
+  Bash(gh pr view:*) Bash(gh pr edit:*) Bash(gh pr comment:*)
+  Bash(gh issue view:*) Bash(gh issue edit:*) Bash(gh issue comment:*)
+  Bash(printf:*) Bash(grep:*) Bash(cat:*)
 ---
 
 # Upload images and files to GitHub (gh-image)
@@ -146,12 +138,16 @@ it — both would render the image twice:
 <img width="800" alt="screenshot" src="https://github.com/user-attachments/assets/<uuid>" />
 ```
 
+## Going the other way
+
+To fetch an attachment rather than post one, `gh image download <user-attachments-url>` writes it to the current directory. Run `gh image download --help` for the output options.
+
 ## Troubleshooting
 
 | Symptom | Fix |
 |---|---|
 | `<org> enforces SAML SSO …` | Authorize the session at `https://github.com/orgs/<org>/sso` (lasts ~24h), then retry. Not a permissions problem. |
-| `uploadToken not found …` | Usually an expired session, not permissions — read access is enough. Re-authenticate; authorize SSO if the org uses it. |
+| `uploadToken not found …` | Expired-session and SSO pages get their own messages, so this likely means no access to the repo — verify the `--repo` value and your access. If both look right, re-authenticate; authorize SSO if the org uses it. |
 | No `user_session` cookie found | Log into GitHub in a supported browser, or set `GH_SESSION_TOKEN`. |
 | Windows + Chrome 127+ | Cookie-library limitation — use another browser or `GH_SESSION_TOKEN`. |
 | CI / headless | Set `GH_SESSION_TOKEN` from a dedicated bot account. |
