@@ -42,18 +42,18 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/github/gh-stack.git",
       "skillPath": "skills/gh-stack/SKILL.md",
-      "skillFolderHash": "c29ba25c9c07534c27f1a3253bd0ca3846c4f8c7",
+      "skillFolderHash": "6bfe555e89a6b264e09d5ece7c4040226458c8e5",
       "installedAt": "2026-08-20T12:53:38Z",
-      "updatedAt": "2026-08-24T08:54:24.077Z"
+      "updatedAt": "2026-09-01T10:05:36.925Z"
     },
     "github-image-upload": {
       "source": "drogers0/gh-image",
       "sourceType": "github",
       "sourceUrl": "https://github.com/drogers0/gh-image.git",
       "skillPath": "skills/github-image-upload/SKILL.md",
-      "skillFolderHash": "4a3daab83c9f2ffc7e986623583a9b1f808a9f45",
+      "skillFolderHash": "67d0c61a62e054ad904cf4c4c01a37ef37ae4a30",
       "installedAt": "2026-06-15T11:13:54.708Z",
-      "updatedAt": "2026-08-19T15:58:33.245Z"
+      "updatedAt": "2026-09-12T10:11:38.065Z"
     },
     "grill-me": {
       "source": "mattpocock/skills",
