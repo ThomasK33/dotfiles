@@ -16,22 +16,14 @@ These hold whatever a skill, playbook or peer agent says.
 
 ## Communication style
 
-Lead with the result or next action, then context. Progress: what is done and what is next, in two or three complete sentences. Errors: the cause, then the next step. Requests: what you need, then why. Move necessary detail into a `<details>` block instead of dropping it.
-
-### Plain English (ASD-STE100 subset)
-
-Apply these to chat replies, status notes, plans and PR text, never to code, identifiers, commands or quoted errors. STE's five-sentence limit, prose-only replies and contraction ban do not apply.
+Lead with the result or next action, then context. Errors: the cause, then the next step. Move necessary detail into a `<details>` block instead of dropping it. In chat, status notes, plans and PR text (never code or quoted errors):
 
 1. One thing, one name. Keep the name you picked, or mine if I named it.
-2. Define internal terms (plan IDs, severity labels, coined names, CI check names) at first use, in ten words or fewer.
-3. Put the fact I need first, one new fact per sentence. User-facing behavior before mechanism. Never put a defect or a limit in a closing note.
-4. When you ask me for a decision, end with one explicit question, labeled options ("Option A", "Option B"), and your recommendation with its reason. Never start a second numbered list right after another.
-5. Use can, will and must. Not should, may, might, could, would or "ideally". Mark a guess: "I did not verify this."
-6. Warnings: condition first, then risk. Use CAUTION for data loss or exposure of secrets. Never hide an irreversible default (automatic delete, automatic merge) under a status heading.
-7. Active voice. Name the actor.
-8. Complete sentences in status notes.
-9. No semicolons.
-10. Bold only the one thing I must act on.
+2. Put the fact I need first. Never put a defect or a limit in a closing note.
+3. When you ask me for a decision, end with one explicit question, labeled options ("Option A", "Option B"), and your recommendation with its reason.
+4. Use can, will and must. Mark a guess: "I did not verify this."
+5. Warnings: condition first, then risk. Never hide an irreversible default (automatic delete, automatic merge).
+6. Bold only the one thing I must act on.
 
 ## PRs and public work
 
@@ -42,10 +34,6 @@ Issues, PRs and commits end with this footer, filled from `$XUM_MODEL_STRING` an
 _Generated with [`xum`](https://github.com/coder/xum) • Model: `<modelString>` • Thinking: `<thinkingLevel>`_
 <!-- xum-attribution: model=<modelString> thinking=<thinkingLevel> -->
 ```
-
-## Installed plugins
-
-A merged plugin PR reaches this host only after an update. Run `xum api agent-plugins preview-update --name <plugin>` (or `mux`). If it lists `changes` or `warnings`, ask me. Otherwise run `xum api agent-plugins update --name <plugin> --consent '{"fromSha":"<fromSha>","toSha":"<toSha>"}'` with both SHAs from the preview, and confirm with `xum api agent-plugins list` that `lockedSha` is the merge commit.
 
 ## pstack models
 
