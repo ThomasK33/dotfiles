@@ -46,15 +46,6 @@
       "installedAt": "2026-08-20T12:53:38Z",
       "updatedAt": "2026-08-24T08:54:24.077Z"
     },
-    "github-image-upload": {
-      "source": "drogers0/gh-image",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/drogers0/gh-image.git",
-      "skillPath": "skills/github-image-upload/SKILL.md",
-      "skillFolderHash": "4a3daab83c9f2ffc7e986623583a9b1f808a9f45",
-      "installedAt": "2026-06-15T11:13:54.708Z",
-      "updatedAt": "2026-08-19T15:58:33.245Z"
-    },
     "grill-me": {
       "source": "mattpocock/skills",
       "sourceType": "github",
@@ -162,9 +153,98 @@
       "skillFolderHash": "8ec0462658381bd1606d3f9db14ffc67df6a2a43",
       "installedAt": "2026-07-14T07:44:46.765Z",
       "updatedAt": "2026-08-19T15:58:31.563Z"
+    },
+    "anatomy": {
+      "source": "wheresryan22/anatomy",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/wheresryan22/anatomy.git",
+      "skillPath": "SKILL.md",
+      "skillFolderHash": "689dcf966e63d92be10a5d593c6e19e10acd4422",
+      "installedAt": "2026-10-12T14:31:34.822Z",
+      "updatedAt": "2026-10-12T14:31:34.822Z"
+    },
+    "google-agents-cli-adk-code": {
+      "source": "google/agents-cli",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/google/agents-cli.git",
+      "skillPath": "skills/google-agents-cli-adk-code/SKILL.md",
+      "skillFolderHash": "cd4d7a3afb0407916c5e1fc0c4106aa9fb6b99ff",
+      "installedAt": "2026-11-12T11:48:56.833Z",
+      "updatedAt": "2026-11-12T11:48:56.833Z"
+    },
+    "google-agents-cli-deploy": {
+      "source": "google/agents-cli",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/google/agents-cli.git",
+      "skillPath": "skills/google-agents-cli-deploy/SKILL.md",
+      "skillFolderHash": "43a580ef5ff86a5a488a3cbed7729417668f8b85",
+      "installedAt": "2026-11-12T11:48:56.837Z",
+      "updatedAt": "2026-11-12T11:48:56.837Z"
+    },
+    "google-agents-cli-eval": {
+      "source": "google/agents-cli",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/google/agents-cli.git",
+      "skillPath": "skills/google-agents-cli-eval/SKILL.md",
+      "skillFolderHash": "99c7caab984454d51ea3376fb3b68ad9066382c0",
+      "installedAt": "2026-11-12T11:48:56.838Z",
+      "updatedAt": "2026-11-12T11:48:56.838Z"
+    },
+    "google-agents-cli-observability": {
+      "source": "google/agents-cli",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/google/agents-cli.git",
+      "skillPath": "skills/google-agents-cli-observability/SKILL.md",
+      "skillFolderHash": "a80badda37553d124637408fa51a16fa7bf0848f",
+      "installedAt": "2026-11-12T11:48:56.839Z",
+      "updatedAt": "2026-11-12T11:48:56.839Z"
+    },
+    "google-agents-cli-publish": {
+      "source": "google/agents-cli",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/google/agents-cli.git",
+      "skillPath": "skills/google-agents-cli-publish/SKILL.md",
+      "skillFolderHash": "9ca5e89aed39a37916ff7aa79e7f43080e1f6397",
+      "installedAt": "2026-11-12T11:48:56.840Z",
+      "updatedAt": "2026-11-12T11:48:56.840Z"
+    },
+    "google-agents-cli-scaffold": {
+      "source": "google/agents-cli",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/google/agents-cli.git",
+      "skillPath": "skills/google-agents-cli-scaffold/SKILL.md",
+      "skillFolderHash": "801766e832e0830fa9d24a0e4d98593cd395f55c",
+      "installedAt": "2026-11-12T11:48:56.841Z",
+      "updatedAt": "2026-11-12T11:48:56.841Z"
+    },
+    "google-agents-cli-workflow": {
+      "source": "google/agents-cli",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/google/agents-cli.git",
+      "skillPath": "skills/google-agents-cli-workflow/SKILL.md",
+      "skillFolderHash": "9544aa6e6d4eff435b07d31c7191632b250d45c4",
+      "installedAt": "2026-11-12T11:48:56.842Z",
+      "updatedAt": "2026-11-12T11:48:56.842Z"
     }
   },
   "dismissed": {
     "findSkillsPrompt": true
-  }
+  },
+  "lastSelectedAgents": [
+    "amp",
+    "cline",
+    "codex",
+    "cursor",
+    "droid",
+    "gemini-cli",
+    "github-copilot",
+    "kilo",
+    "kimi-code-cli",
+    "opencode",
+    "pi",
+    "warp",
+    "zed",
+    "claude-code",
+    "mux"
+  ]
 }
