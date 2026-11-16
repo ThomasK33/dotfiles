@@ -37,26 +37,22 @@ _Generated with [`xum`](https://github.com/coder/xum) • Model: `<modelString>`
 
 ## pstack models
 
-pstack per-role model choices for this Xum host. They override the pstack skill defaults, which name Cursor slugs and Grok (not available here). Pass the model as the `task` `model` and the level as `thinking`. `inherit-parent` or `auto` as a value: omit `model`, so the role runs on the parent chat's model. A panel list runs one sub-agent per entry. Delete a line to fall back to the skill default. Re-run `/setup-pstack` to change these.
+pstack per-role model choices for this Xum host (pstack 0.15.42 defaults: 2). They override the pstack skill defaults, which name Cursor slugs. Pass the model as the `task` `model` and the level as `thinking`. `inherit-parent` or `auto` as a value: omit `model`, so the role runs on the parent chat's model. A panel list runs one sub-agent per entry. Delete a line to fall back to the skill default. Re-run `/setup-pstack` to change these.
 
 Budget: large (xhigh).
 
 | Role | Model | Thinking |
 |---|---|---|
-| feature, refactoring | anthropic:claude-sonnet-5-5 | xhigh |
-| bug-fix | anthropic:claude-sonnet-5-5 | xhigh |
-| perf-issue | anthropic:claude-sonnet-5-5 | xhigh |
-| hillclimb | anthropic:claude-sonnet-5-5 | xhigh |
+| feature, refactoring | anthropic:claude-opus-5-5 | xhigh |
+| bug-fix | anthropic:claude-opus-5-5 | xhigh |
+| perf-issue | anthropic:claude-opus-5-5 | xhigh |
+| hillclimb | anthropic:claude-opus-5-5 | xhigh |
 | judgment and prose | anthropic:claude-opus-5-5 | xhigh |
-| hardest tasks | anthropic:claude-fable-5-2 | xhigh |
-| how explorer | anthropic:claude-haiku-5-5 | xhigh |
-| how explainer | anthropic:claude-opus-5-5 | xhigh |
-| why investigators | anthropic:claude-sonnet-5-5 | xhigh |
-| why synthesizer | anthropic:claude-fable-5-2 | xhigh |
-| reflect tooling | anthropic:claude-haiku-5-5 | xhigh |
+| hardest tasks | anthropic:claude-fable-5-2 | max |
+| reflect tooling | anthropic:claude-opus-5-5 | high |
 | reflect judgment, divergent, synthesizer | anthropic:claude-opus-5-5 | xhigh |
-| arena runners | anthropic:claude-opus-5-5, openai:gpt-6.1-sol | xhigh |
-| arena cross-judge pool | anthropic:claude-opus-5-5, openai:gpt-6.1-sol | xhigh |
-| swarm workers | anthropic:claude-opus-5-5 | xhigh |
-| architect runners | anthropic:claude-fable-5-2, openai:gpt-6.1-sol | xhigh |
-| interrogate reviewers | anthropic:claude-opus-5-5, openai:gpt-6.1-sol | xhigh |
+| arena runners | anthropic:claude-fable-5-2, anthropic:claude-opus-5-5, google-vertex:gemini-4-carbon | high |
+| arena cross-judge pool | anthropic:claude-fable-5-2, anthropic:claude-opus-5-5, google-vertex:gemini-4-carbon | high |
+| swarm workers | anthropic:claude-opus-5-5 | high |
+| architect runners | anthropic:claude-fable-5-2, anthropic:claude-opus-5-5, google-vertex:gemini-4-carbon | high |
+| interrogate reviewers | anthropic:claude-fable-5-2, anthropic:claude-opus-5-5, google-vertex:gemini-4-carbon | high |
